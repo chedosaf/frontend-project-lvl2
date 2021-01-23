@@ -9,9 +9,11 @@ const createSharedKeys = (obj1, obj2) => {
   return uniqSharedKeys;
 };
 
+const readJson = (filepath) => fs.readFileSync(path.resolve(process.cwd(), filepath), 'UTF-8');
+
 const genDiff = (filepath1, filepath2) => {
-  const json1 = fs.readFileSync(path.resolve(process.cwd(), filepath1), 'UTF-8');
-  const json2 = fs.readFileSync(path.resolve(process.cwd(), filepath2), 'UTF-8');
+  const json1 = readJson(filepath1);
+  const json2 = readJson(filepath2);
   const jsonObj1 = JSON.parse(json1);
   const jsonObj2 = JSON.parse(json2);
   const array = {};
