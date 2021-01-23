@@ -9,9 +9,9 @@ const createSharedKeys = (obj1, obj2) => {
   return uniqSharedKeys;
 };
 
-const makePath = (filepath) => path.resolve(process.cwd(), filepath);
+const getPath = (filepath) => path.resolve(process.cwd(), filepath);
 
-const readJson = (filepath) => fs.readFileSync(makePath(filepath), 'UTF-8');
+const readFile = (filepath) => fs.readFileSync(getPath(filepath), 'UTF-8');
 
 const compare = (keys, json1, json2) => {
   const array = {};
@@ -35,8 +35,8 @@ const compare = (keys, json1, json2) => {
 };
 
 const genDiff = (filepath1, filepath2) => {
-  const json1 = readJson(filepath1);
-  const json2 = readJson(filepath2);
+  const json1 = readFile(filepath1);
+  const json2 = readFile(filepath2);
   const jsonObj1 = JSON.parse(json1);
   const jsonObj2 = JSON.parse(json2);
   const keys = createSharedKeys(jsonObj1, jsonObj2).sort();
