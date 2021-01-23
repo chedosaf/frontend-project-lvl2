@@ -10,8 +10,10 @@ const createSharedKeys = (obj1, obj2) => {
 };
 
 const genDiff = (filepath1, filepath2) => {
-  const jsonObj1 = JSON.parse(fs.readFileSync(path.resolve(process.cwd(), filepath1), 'UTF-8'));
-  const jsonObj2 = JSON.parse(fs.readFileSync(path.resolve(process.cwd(), filepath2), 'UTF-8'));
+  const json1 = fs.readFileSync(path.resolve(process.cwd(), filepath1), 'UTF-8');
+  const json2 = fs.readFileSync(path.resolve(process.cwd(), filepath2), 'UTF-8');
+  const jsonObj1 = JSON.parse(json1);
+  const jsonObj2 = JSON.parse(json2);
   const array = {};
   const keys = createSharedKeys(jsonObj1, jsonObj2).sort();
   for (let i = 0; i < keys.length; i += 1) {
