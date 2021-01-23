@@ -1,0 +1,25 @@
+name: lint
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '12'
+          check-latest: true
+      - run: npm install
+      
+      - uses: actions/checkout@v2
+      - name: Install lint
+        run: npm install
+      
+      - name: Run eslint
+        run: make lint
