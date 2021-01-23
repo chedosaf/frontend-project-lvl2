@@ -9,31 +9,38 @@ const createSharedKeys = (obj1, obj2) => {
   return uniqSharedKeys;
 };
 
-const readJson = (filepath) => fs.readFileSync(path.resolve(process.cwd(), filepath), 'UTF-8');
+const makePath = (filepath) => path.resolve(process.cwd(), filepath);
+
+const readJson = (filepath) => fs.readFileSync(makePath(filepath), 'UTF-8');
+
+const compare = (keys, json1, json2) => {
+  const array = {};
+  for (let i = 0; i < keys.length; i += 1) {
+    const iterialKey = keys[i];
+    const key1 = `- ${iterialKey}`;
+    const key2 = `+ ${iterialKey}`;
+    if (json1[iterialKey] && json2[iterialKey]) {
+      if (json1[iterialKey] === json2[iterialKey]) {
+        array[`  ${iterialKey}`] = json1[iterialKey];
+      } if (json1[iterialKey] !== json2[iterialKey]) {
+        array[key1] = json1[iterialKey];
+        array[key2] = json2[iterialKey];
+      }
+    } if (json1[iterialKey] !== undefined && json2[iterialKey] === undefined) {
+      array[`- ${iterialKey}`] = json1[iterialKey];
+    } if (json1[iterialKey] === undefined && json2[iterialKey] !== undefined) {
+      array[`+ ${iterialKey}`] = json2[iterialKey];
+    }
+  } return array;
+};
 
 const genDiff = (filepath1, filepath2) => {
   const json1 = readJson(filepath1);
   const json2 = readJson(filepath2);
   const jsonObj1 = JSON.parse(json1);
   const jsonObj2 = JSON.parse(json2);
-  const array = {};
   const keys = createSharedKeys(jsonObj1, jsonObj2).sort();
-  for (let i = 0; i < keys.length; i += 1) {
-    if (jsonObj1[keys[i]] && jsonObj2[keys[i]]) {
-      if (jsonObj1[keys[i]] === jsonObj2[keys[i]]) {
-        array[`  ${keys[i]}`] = jsonObj1[keys[i]];
-      } if (jsonObj1[keys[i]] !== jsonObj2[keys[i]]) {
-        const key1 = `- ${keys[i]}`;
-        const key2 = `+ ${keys[i]}`;
-        array[key1] = jsonObj1[keys[i]];
-        array[key2] = jsonObj2[keys[i]];
-      }
-    } if (jsonObj1[keys[i]] !== undefined && jsonObj2[keys[i]] === undefined) {
-      array[`- ${keys[i]}`] = jsonObj1[keys[i]];
-    } if (jsonObj1[keys[i]] === undefined && jsonObj2[keys[i]] !== undefined) {
-      array[`+ ${keys[i]}`] = jsonObj2[keys[i]];
-    }
-  }
+  const array = compare(keys, jsonObj1, jsonObj2);
   console.log(JSON.stringify(array, null, 2).replace(/"/g, ''));
 };
 
