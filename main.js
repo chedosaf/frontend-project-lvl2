@@ -41,7 +41,7 @@ const genDiff = (filepath1, filepath2) => {
   const jsonObj2 = JSON.parse(json2);
   const keys = createSharedKeys(jsonObj1, jsonObj2).sort();
   const array = compare(keys, jsonObj1, jsonObj2);
-  console.log(JSON.stringify(array, null, 2).replace(/"/g, ''));
+  return JSON.stringify(array, null, 2).replace(/"/g, '').replace(/,/g, '');
 };
 
 export default genDiff;
