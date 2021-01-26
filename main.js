@@ -5,8 +5,8 @@ const createSharedKeys = (obj1, obj2) => {
   const keysOfFirstObj = Object.keys(obj1);
   const keysOfSecondObj = Object.keys(obj2);
   const sharedKeys = keysOfFirstObj.concat(keysOfSecondObj);
-  const uniqSharedKeys = sharedKeys.filter((item, index) => sharedKeys.indexOf(item) === index);
-  return uniqSharedKeys;
+  const uniqSharedKeys = Array.from(new Set(sharedKeys));
+  return uniqSharedKeys.sort();
 };
 
 const getPath = (filepath) => path.resolve(process.cwd(), filepath);
@@ -16,24 +16,23 @@ const readFile = (filepath) => fs.readFileSync(getPath(filepath), 'UTF-8');
 const compare = (keys, json1, json2) => {
   const array = {};
   for (let i = 0; i < keys.length; i += 1) {
-    const iterialKey = keys[i];
-    const deletedKey = `- ${iterialKey}`;
-    const addedKey = `+ ${iterialKey}`;
-    const iterialJson1Value = json1[iterialKey];
-    const iterialJson2Value = json2[iterialKey];
-    if (iterialJson1Value && iterialJson2Value) {
-      if (iterialJson1Value === iterialJson2Value) {
-        array[`  ${iterialKey}`] = iterialJson1Value;
-      } if (iterialJson1Value !== iterialJson2Value) {
-        array[deletedKey] = iterialJson1Value;
-        array[addedKey] = iterialJson2Value;
-      }
-    } if (iterialJson1Value !== undefined && iterialJson2Value === undefined) {
-      array[deletedKey] = json1[iterialKey];
-    } if (iterialJson1Value === undefined && iterialJson2Value !== undefined) {
-      array[addedKey] = json2[iterialKey];
+    const iter = keys[i];
+    const unchangedKey = `  ${iter}`;
+    const deletedKey = `- ${iter}`;
+    const addedKey = `+ ${iter}`;
+    if (json1[iter] === undefined) {
+      array[addedKey] = json2[iter];
+    } if (json2[iter] === undefined) {
+      array[deletedKey] = json1[iter];
+    } if (json1[iter] === json2[iter]) {
+      array[unchangedKey] = json1[iter];
+    } if ((json1[iter] !== json2[iter])
+    && ((json2[iter] !== undefined) && (json2[iter] !== undefined))) {
+      array[deletedKey] = json1[iter];
+      array[addedKey] = json2[iter];
     }
-  } return array;
+  }
+  return array;
 };
 
 const genDiff = (filepath1, filepath2) => {
