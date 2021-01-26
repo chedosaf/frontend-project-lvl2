@@ -15,8 +15,7 @@ const readFile = (filepath) => fs.readFileSync(getPath(filepath), 'UTF-8');
 
 const compare = (keys, json1, json2) => {
   const array = {};
-  for (let i = 0; i < keys.length; i += 1) {
-    const iter = keys[i];
+  keys.forEach((iter) => {
     const unchangedKey = `  ${iter}`;
     const deletedKey = `- ${iter}`;
     const addedKey = `+ ${iter}`;
@@ -31,7 +30,7 @@ const compare = (keys, json1, json2) => {
       array[deletedKey] = json1[iter];
       array[addedKey] = json2[iter];
     }
-  }
+  });
   return array;
 };
 
