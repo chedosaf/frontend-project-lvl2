@@ -1,5 +1,4 @@
-import fs from 'fs';
-import path from 'path';
+import parcer from './parsers.js';
 
 const createSharedKeys = (obj1, obj2) => {
   const keysOfFirstObj = Object.keys(obj1);
@@ -8,10 +7,6 @@ const createSharedKeys = (obj1, obj2) => {
   const uniqSharedKeys = Array.from(new Set(sharedKeys));
   return uniqSharedKeys.sort();
 };
-
-const getPath = (filepath) => path.resolve(process.cwd(), filepath);
-
-const readFile = (filepath) => fs.readFileSync(getPath(filepath), 'UTF-8');
 
 const compare = (keys, json1, json2) => {
   const array = {};
@@ -35,12 +30,10 @@ const compare = (keys, json1, json2) => {
 };
 
 const genDiff = (filepath1, filepath2) => {
-  const json1 = readFile(filepath1);
-  const json2 = readFile(filepath2);
-  const jsonObj1 = JSON.parse(json1);
-  const jsonObj2 = JSON.parse(json2);
-  const keys = createSharedKeys(jsonObj1, jsonObj2).sort();
-  const array = compare(keys, jsonObj1, jsonObj2);
+  const obj1 = parcer(filepath1);
+  const obj2 = parcer(filepath2);
+  const keys = createSharedKeys(obj1, obj2).sort();
+  const array = compare(keys, obj1, obj2);
   console.log(JSON.stringify(array, null, 2).replace(/"/g, '').replace(/,/g, ''));
   return JSON.stringify(array, null, 2).replace(/"/g, '').replace(/,/g, '');
 };

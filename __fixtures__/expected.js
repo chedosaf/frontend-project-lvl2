@@ -1,10 +1,10 @@
 const expected = `{
-  + follow: false
+  - follow: false
     host: hexlet.io
-  + proxy: 123.234.53.22
-  - timeout: 20
-  + timeout: 50
-  - verbose: true
+  - proxy: 123.234.53.22
+  - timeout: 50
+  + timeout: 20
+  + verbose: true
 }`;
 
 export default expected;
