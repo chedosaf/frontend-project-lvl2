@@ -1,11 +1,10 @@
 #!/usr/bin/env node
 
-import { Command } from 'commander';
-// import genDiff from './main.js';
-// import formateStylish from '../formatters/stylish.js';
-// import formatePlain from '../formatters/plain.js';
-// import formateJson from '../formatters/json.js';
+// import { Command } from 'commander';
+import pkg from 'commander';
 import format from '../formatters/index.js';
+
+const { Command } = pkg;
 
 const program = new Command();
 program
