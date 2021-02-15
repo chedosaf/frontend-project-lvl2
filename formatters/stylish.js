@@ -12,7 +12,7 @@ const formateStylish = (mass) => {
       } if (correntValue.children.length === 0) {
         str = `\n${indent.repeat(correntValue.depth)}${unchanged}${correntValue.name}: ${correntValue.value}`;
       }
-    } if (correntValue.type === 'deleted') {
+    } if (correntValue.type === 'deleted' || correntValue.type === 'removed') {
       if (correntValue.children.length !== 0) {
         str = `\n${indent.repeat(correntValue.depth)}${deleted}${correntValue.name}: {${stylish(correntValue.children)}\n  ${indent.repeat(correntValue.depth)}}`;
       } if (correntValue.children.length === 0) {

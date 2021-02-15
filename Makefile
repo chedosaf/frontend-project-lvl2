@@ -19,4 +19,4 @@ publish:
 	npm publish --dry-run
 
 gendiff:
-	node gendiff.js
+	node bin/gendiff.js

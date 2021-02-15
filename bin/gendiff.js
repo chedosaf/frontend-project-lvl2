@@ -3,6 +3,7 @@
 import { Command } from 'commander';
 import genDiff from './main.js';
 import formateStylish from '../formatters/stylish.js';
+import formatePlain from '../formatters/plain.js';
 
 const program = new Command();
 program
@@ -14,10 +15,10 @@ program
     let diff = '';
     if (options.format === 'stylish') {
       diff = genDiff(filepath1, filepath2, formateStylish);
+    } if (options.format === 'plain') {
+      diff = genDiff(filepath1, filepath2, formatePlain);
     }
     console.log(diff);
   });
 
 program.parse(process.argv);
-
-// const options = program.opts();

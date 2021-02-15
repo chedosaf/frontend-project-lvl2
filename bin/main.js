@@ -1,6 +1,8 @@
 import parcer from '../parsers.js';
 import formateStylish from '../formatters/stylish.js';
 import { isObject } from './helpers.js';
+import plainformate from '../formatters/plain.js';
+import formateJson from '../formatters/json.js';
 
 const createSharedKeys = (obj1, obj2) => {
   const keysOfFirstObj = Object.keys(obj1);
@@ -129,7 +131,7 @@ const compare = (obj1, obj2, depthValue) => {
       if (isObject(obj1[iter])) {
         const objForDelited = {};
         objForDelited.name = iter;
-        objForDelited.type = 'deleted';
+        objForDelited.type = 'removed';
         objForDelited.value = [];
         objForDelited.depth = depthValue;
         objForDelited.children = createObjForVST(obj1[iter], depthValue + 1);
@@ -137,7 +139,7 @@ const compare = (obj1, obj2, depthValue) => {
       } else {
         const objForDelited = {};
         objForDelited.name = iter;
-        objForDelited.type = 'deleted';
+        objForDelited.type = 'removed';
         objForDelited.value = obj1[iter];
         objForDelited.depth = depthValue;
         objForDelited.children = [];
@@ -157,9 +159,9 @@ const genDiff = (filepath1, filepath2, formater) => {
 
 export default genDiff;
 
-// const a = genDiff('./__fixtures__/before.json', './__fixtures__/after.json', formateStylish);
+// const a = genDiff('./__fixtures__/before.json', './__fixtures__/after.json', plainformate);
 
-// console.log(a[1]);
+// console.log(a);
 
 // const b = {
 //   common: 'follow',
