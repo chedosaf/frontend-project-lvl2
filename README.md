@@ -13,3 +13,6 @@
 
 #### Asciinema 3:  
 [![asciicast](https://asciinema.org/a/EBE287YFA2C4mskEiyWezZLrX.svg)](https://asciinema.org/a/EBE287YFA2C4mskEiyWezZLrX)
+
+#### Asciinema 4:  
+[![asciicast](https://asciinema.org/a/g2SoWDJvIJPcmq9ZMXbiQos8o.svg)](https://asciinema.org/a/g2SoWDJvIJPcmq9ZMXbiQos8o)

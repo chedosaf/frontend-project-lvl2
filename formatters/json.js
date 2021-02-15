@@ -1,3 +1,3 @@
-const formateJson = (mass) => JSON.parse(JSON.stringify(mass));
+const formateJson = (mass) => JSON.stringify(mass, null, '  ');
 
 export default formateJson;

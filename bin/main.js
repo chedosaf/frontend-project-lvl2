@@ -1,8 +1,5 @@
 import parcer from '../parsers.js';
-import formateStylish from '../formatters/stylish.js';
 import { isObject } from './helpers.js';
-import plainformate from '../formatters/plain.js';
-import formateJson from '../formatters/json.js';
 
 const createSharedKeys = (obj1, obj2) => {
   const keysOfFirstObj = Object.keys(obj1);
@@ -12,7 +9,7 @@ const createSharedKeys = (obj1, obj2) => {
   return uniqSharedKeys.sort();
 };
 
-const createObjForVST = (file, depthValue = 0) => {
+const createMassOfOjForVST = (file, depthValue = 0) => {
   const mass = [];
   const keys = Object.keys(file).sort();
   keys.forEach((iter) => {
@@ -22,7 +19,7 @@ const createObjForVST = (file, depthValue = 0) => {
       obj.type = 'unchanged';
       obj.value = [];
       obj.depth = depthValue;
-      obj.children = createObjForVST(file[iter], depthValue + 1);
+      obj.children = createMassOfOjForVST(file[iter], depthValue + 1);
       mass.push(obj);
     } else {
       const obj = {};
@@ -81,7 +78,7 @@ const compare = (obj1, obj2, depthValue) => {
             objForAdded.type = 'updated';
             objForAdded.value = [];
             objForAdded.depth = depthValue;
-            objForAdded.children = createObjForVST(obj2[iter], depthValue + 1);
+            objForAdded.children = createMassOfOjForVST(obj2[iter], depthValue + 1);
             comparedMass.push(objForAdded);
           } if (isObject(obj1[iter]) && !isObject(obj2[iter])) {
             const objForDelited = {};
@@ -89,7 +86,7 @@ const compare = (obj1, obj2, depthValue) => {
             objForDelited.type = 'deleted';
             objForDelited.value = [];
             objForDelited.depth = depthValue;
-            objForDelited.children = createObjForVST(obj1[iter], depthValue + 1);
+            objForDelited.children = createMassOfOjForVST(obj1[iter], depthValue + 1);
             comparedMass.push(objForDelited);
             const objForAdded = {};
             objForAdded.name = iter;
@@ -116,7 +113,7 @@ const compare = (obj1, obj2, depthValue) => {
         objForAdded.type = 'added';
         objForAdded.value = [];
         objForAdded.depth = depthValue;
-        objForAdded.children = createObjForVST(obj2[iter], depthValue + 1);
+        objForAdded.children = createMassOfOjForVST(obj2[iter], depthValue + 1);
         comparedMass.push(objForAdded);
       } else {
         const objForAdded = {};
@@ -134,7 +131,7 @@ const compare = (obj1, obj2, depthValue) => {
         objForDelited.type = 'removed';
         objForDelited.value = [];
         objForDelited.depth = depthValue;
-        objForDelited.children = createObjForVST(obj1[iter], depthValue + 1);
+        objForDelited.children = createMassOfOjForVST(obj1[iter], depthValue + 1);
         comparedMass.push(objForDelited);
       } else {
         const objForDelited = {};
@@ -158,29 +155,3 @@ const genDiff = (filepath1, filepath2, formater) => {
 };
 
 export default genDiff;
-
-// const a = genDiff('./__fixtures__/before.json', './__fixtures__/after.json', plainformate);
-
-// console.log(a);
-
-// const b = {
-//   common: 'follow',
-//   fooo: {
-//     true: 'dfd',
-//     rrr: 'fff',
-//   },
-// };
-
-// const foooor = (obj, depthValue = 0) => {
-//   const c = {};
-//   const keys = Object.keys(obj).sort();
-//   if (keys.length < 2) {
-//     c.name = keys[0];
-//     c.type = 'unchanged';
-//     c.value = [];
-//     c.depth = depthValue;
-//   }
-//   return c;
-// };
-
-// console.log(createObjForVST(b));

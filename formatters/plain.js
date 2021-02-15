@@ -1,4 +1,4 @@
-const plainformate = (mass) => {
+const formatePlain = (mass) => {
   const property = [];
   let str = '';
   const complex = '[complex value]';
@@ -32,4 +32,4 @@ const plainformate = (mass) => {
   return str.trim();
 };
 
-export default plainformate;
+export default formatePlain;
