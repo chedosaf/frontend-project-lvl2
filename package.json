@@ -12,7 +12,8 @@
     "url": "git+https://github.com/chedosaf/frontend-project-lvl2.git"
   },
   "bin": {
-    "gendiff": "bin/gendiff.js"
+    "gendiff": "bin/gendiff.js",
+    "commander": "formatters/stylish.js"
   },
   "jest": {
     "testEnvironment": "node",
