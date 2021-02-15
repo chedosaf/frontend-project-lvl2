@@ -11,5 +11,3 @@ Property 'group2' was removed
 Property 'group3' was added with value: [complex value]`;
 
 export default expectedPlain;
-
-console.log(expectedPlain);

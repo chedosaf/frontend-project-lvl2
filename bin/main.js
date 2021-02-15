@@ -1,4 +1,4 @@
-import parcer from '../parsers.js';
+import parcer from './parsers.js';
 import { isObject } from './helpers.js';
 
 const createSharedKeys = (obj1, obj2) => {

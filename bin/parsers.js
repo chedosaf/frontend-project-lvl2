@@ -1,6 +1,6 @@
 import yaml from 'js-yaml';
 import path from 'path';
-import { readFile } from './bin/helpers.js';
+import { readFile } from './helpers.js';
 
 const parcer = (filepath) => {
   const expansion = path.extname(filepath);

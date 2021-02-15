@@ -1,0 +1,230 @@
+[
+  {
+    "name": "common",
+    "type": "unchanged",
+    "value": [],
+    "depth": 0,
+    "children": [
+      {
+        "name": "follow",
+        "type": "added",
+        "value": false,
+        "depth": 1,
+        "children": []
+      },
+      {
+        "name": "setting1",
+        "type": "unchanged",
+        "value": "Value 1",
+        "depth": 1,
+        "children": []
+      },
+      {
+        "name": "setting2",
+        "type": "removed",
+        "value": 200,
+        "depth": 1,
+        "children": []
+      },
+      {
+        "name": "setting3",
+        "type": "deleted",
+        "value": true,
+        "depth": 1,
+        "children": []
+      },
+      {
+        "name": "setting3",
+        "type": "updated",
+        "value": null,
+        "depth": 1,
+        "children": []
+      },
+      {
+        "name": "setting4",
+        "type": "added",
+        "value": "blah blah",
+        "depth": 1,
+        "children": []
+      },
+      {
+        "name": "setting5",
+        "type": "added",
+        "value": [],
+        "depth": 1,
+        "children": [
+          {
+            "name": "key5",
+            "type": "unchanged",
+            "value": "value5",
+            "depth": 2,
+            "children": []
+          }
+        ]
+      },
+      {
+        "name": "setting6",
+        "type": "unchanged",
+        "value": [],
+        "depth": 1,
+        "children": [
+          {
+            "name": "doge",
+            "type": "unchanged",
+            "value": [],
+            "depth": 2,
+            "children": [
+              {
+                "name": "wow",
+                "type": "deleted",
+                "value": "",
+                "depth": 3,
+                "children": []
+              },
+              {
+                "name": "wow",
+                "type": "updated",
+                "value": "so much",
+                "depth": 3,
+                "children": []
+              }
+            ]
+          },
+          {
+            "name": "key",
+            "type": "unchanged",
+            "value": "value",
+            "depth": 2,
+            "children": []
+          },
+          {
+            "name": "ops",
+            "type": "added",
+            "value": "vops",
+            "depth": 2,
+            "children": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "group1",
+    "type": "unchanged",
+    "value": [],
+    "depth": 0,
+    "children": [
+      {
+        "name": "baz",
+        "type": "deleted",
+        "value": "bas",
+        "depth": 1,
+        "children": []
+      },
+      {
+        "name": "baz",
+        "type": "updated",
+        "value": "bars",
+        "depth": 1,
+        "children": []
+      },
+      {
+        "name": "foo",
+        "type": "unchanged",
+        "value": "bar",
+        "depth": 1,
+        "children": []
+      },
+      {
+        "name": "nest",
+        "type": "deleted",
+        "value": [],
+        "depth": 1,
+        "children": [
+          {
+            "name": "key",
+            "type": "unchanged",
+            "value": "value",
+            "depth": 2,
+            "children": []
+          }
+        ]
+      },
+      {
+        "name": "nest",
+        "type": "updated",
+        "value": "str",
+        "depth": 1,
+        "children": []
+      }
+    ]
+  },
+  {
+    "name": "group2",
+    "type": "removed",
+    "value": [],
+    "depth": 0,
+    "children": [
+      {
+        "name": "abc",
+        "type": "unchanged",
+        "value": 12345,
+        "depth": 1,
+        "children": []
+      },
+      {
+        "name": "deep",
+        "type": "unchanged",
+        "value": [],
+        "depth": 1,
+        "children": [
+          {
+            "name": "id",
+            "type": "unchanged",
+            "value": 45,
+            "depth": 2,
+            "children": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "group3",
+    "type": "added",
+    "value": [],
+    "depth": 0,
+    "children": [
+      {
+        "name": "deep",
+        "type": "unchanged",
+        "value": [],
+        "depth": 1,
+        "children": [
+          {
+            "name": "id",
+            "type": "unchanged",
+            "value": [],
+            "depth": 2,
+            "children": [
+              {
+                "name": "number",
+                "type": "unchanged",
+                "value": 45,
+                "depth": 3,
+                "children": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "fee",
+        "type": "unchanged",
+        "value": 100500,
+        "depth": 1,
+        "children": []
+      }
+    ]
+  }
+]

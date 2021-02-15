@@ -16,3 +16,6 @@
 
 #### Asciinema 4:  
 [![asciicast](https://asciinema.org/a/g2SoWDJvIJPcmq9ZMXbiQos8o.svg)](https://asciinema.org/a/g2SoWDJvIJPcmq9ZMXbiQos8o)
+
+#### Asciinema 5:  
+[![asciicast](https://asciinema.org/a/qKvuOtt8SHP9fQKdevYNkptmQ.svg)](https://asciinema.org/a/qKvuOtt8SHP9fQKdevYNkptmQ)
