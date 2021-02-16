@@ -9,7 +9,7 @@ const formatePlain = (mass) => {
     });
     return prop;
   };
-  const createQuotes = (item) => ((typeof item === 'boolean' || item === null) ? item : `'${item}'`);
+  const createQuotes = (item) => ((typeof item === 'boolean' || item === null || item === 0) ? item : `'${item}'`);
   const plain = (mas) => {
     for (let i = 0; i < mas.length; i += 1) {
       if (mas[i].type === 'unchanged' && mas[i].children.length !== 0) {
