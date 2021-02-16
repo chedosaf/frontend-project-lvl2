@@ -151,7 +151,8 @@ const genDiff = (filepath1, filepath2, formater) => {
   const obj1 = parcer(filepath1);
   const obj2 = parcer(filepath2);
   const vst = compare(obj1, obj2, 0);
-  return formater(vst);
+  const result = formater(vst);
+  return result;
 };
 
 export default genDiff;
