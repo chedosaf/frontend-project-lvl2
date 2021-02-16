@@ -2,7 +2,7 @@
   "name": "@hexlet/code",
   "version": "1.0.0",
   "description": "[![Actions Status](https://github.com/chedosaf/frontend-project-lvl2/workflows/hexlet-check/badge.svg)](https://github.com/chedosaf/frontend-project-lvl2/actions)",
-  "main": "gendiff.js",
+  "main": "bin/main.js",
   "scripts": {
     "test": "npx jest"
   },
@@ -12,7 +12,7 @@
     "url": "git+https://github.com/chedosaf/frontend-project-lvl2.git"
   },
   "bin": {
-    "gendiff": "bin/main.js",
+    "gendiff": "bin/gendiff.js",
     "commander": "formatters/stylish.js"
   },
   "jest": {
