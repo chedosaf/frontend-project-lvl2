@@ -15,5 +15,3 @@ const parcer = (filepath) => {
 };
 
 export default parcer;
-
-console.log(typeof (parcer('./__fixtures__/after.yml')));
