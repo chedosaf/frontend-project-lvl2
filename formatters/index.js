@@ -8,7 +8,7 @@ const convertToFormate = (tree, format) => {
     result = formateStylish(tree);
   } if (format === 'plain') {
     result = formatePlain(tree);
-  } if (format === 'stylish') {
+  } if (format === 'json') {
     result = formateJson(tree);
   }
   return result;

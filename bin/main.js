@@ -147,7 +147,7 @@ const compare = (obj1, obj2, depthValue) => {
   return comparedMass;
 };
 
-const genDiff = (filepath1, filepath2, formater) => {
+const genDiff = (filepath1, filepath2) => {
   const obj1 = parcer(filepath1);
   const obj2 = parcer(filepath2);
   const vst = compare(obj1, obj2, 0);
