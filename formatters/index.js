@@ -2,7 +2,7 @@ import formateStylish from './stylish.js';
 import formatePlain from './plain.js';
 import formateJson from './json.js';
 
-const convertToFormate = (tree, format) => {
+const convertToFormate = (tree, format = 'stylish') => {
   let result = '';
   if (format === 'stylish') {
     result = formateStylish(tree);
