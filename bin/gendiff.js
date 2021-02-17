@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 
 import pkg from 'commander';
-import convertToFormate from '../formatters/index.js';
 import gendiff from './main.js';
 
 const { Command } = pkg;
@@ -13,7 +12,7 @@ program
   .arguments('<filepath1> <filepath2>')
   .option('-f, --format [type]', 'output format', 'stylish')
   .action((filepath1, filepath2, options) => {
-    const diff = convertToFormate(gendiff(filepath1, filepath2), options.format);
+    const diff = gendiff(filepath1, filepath2, options.format);
     console.log(diff);
   });
 

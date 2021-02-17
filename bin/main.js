@@ -1,5 +1,6 @@
 import parcer from './parsers.js';
 import { isObject } from './helpers.js';
+import convertToFormate from '../formatters/index.js';
 
 const createSharedKeys = (obj1, obj2) => {
   const keysOfFirstObj = Object.keys(obj1);
@@ -147,11 +148,11 @@ const compare = (obj1, obj2, depthValue) => {
   return comparedMass;
 };
 
-const genDiff = (filepath1, filepath2) => {
+const genDiff = (filepath1, filepath2, formatName) => {
   const obj1 = parcer(filepath1);
   const obj2 = parcer(filepath2);
   const vst = compare(obj1, obj2, 0);
-  return vst;
+  return convertToFormate(vst, formatName);
 };
 
 export default genDiff;
