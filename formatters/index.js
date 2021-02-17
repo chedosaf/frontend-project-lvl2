@@ -1,12 +1,17 @@
 import formateStylish from './stylish.js';
 import formatePlain from './plain.js';
 import formateJson from './json.js';
-import genDiff from '../bin/main.js';
 
-const format = {
-  stylish: (a, b) => genDiff(a, b, formateStylish),
-  plain: (a, b) => genDiff(a, b, formatePlain),
-  json: (a, b) => genDiff(a, b, formateJson),
+const convertToFormate = (tree, format) => {
+  let result = '';
+  if (format === 'stylish') {
+    result = formateStylish(tree);
+  } if (format === 'plain') {
+    result = formatePlain(tree);
+  } if (format === 'stylish') {
+    result = formateJson(tree);
+  }
+  return result;
 };
 
-export default format;
+export default convertToFormate;
