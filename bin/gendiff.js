@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import pkg from 'commander';
-import gendiff from './main.js';
+import gendiff from '../src/main.js';
 
 const { Command } = pkg;
 
