@@ -1,10 +1,6 @@
 import yaml from 'js-yaml';
-import path from 'path';
-import { readFile } from './helpers.js';
 
-const parcer = (filepath) => {
-  const expansion = path.extname(filepath);
-  const file = readFile(filepath);
+const parcer = (file, expansion) => {
   let object = '';
   if (expansion === '.yml') {
     object = yaml.load(file);
