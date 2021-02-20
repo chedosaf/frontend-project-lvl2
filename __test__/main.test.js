@@ -7,7 +7,7 @@ import { readFile } from '../src/helpers.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-const getFixturePath = (filename) => path.join(__dirname, '__fixtures__', filename);
+const getFixturePath = (filename) => path.join(__dirname, '..', '__fixtures__', filename);
 
 test("gendiff.js should output the difference between the two JSON's in stylish format", () => {
   expect(genDiff(getFixturePath('fileBefore.json'), getFixturePath('fileAfter.json'), 'stylish')).toBe(expectedStylish.trim());
