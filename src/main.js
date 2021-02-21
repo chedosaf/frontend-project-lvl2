@@ -15,234 +15,152 @@ const createSharedKeys = (obj1, obj2) => {
 const createMassOfObjForVST = (content, depthValue = 0) => {
   const keys = _.sortBy(Object.keys(content));
   const processedContent = keys.reduce((prev, corrent) => {
-    const obj = {};
-    if (_.isObject(content[corrent])) {
-      obj.name = corrent;
-      obj.type = 'unchanged';
-      obj.value = [];
-      obj.depth = depthValue;
-      obj.children = createMassOfObjForVST(content[corrent], depthValue + 1);
-    } if (!_.isObject(content[corrent])) {
-      obj.name = corrent;
-      obj.type = 'unchanged';
-      obj.value = content[corrent];
-      obj.depth = depthValue;
-      obj.children = [];
-    }
-    return _.concat(prev, [obj]);
+    const check = (item) => {
+      if (_.isObject(content[item])) {
+        const obj = {
+          name: item,
+          type: 'unchanged',
+          value: [],
+          depth: depthValue,
+          children: createMassOfObjForVST(content[item], depthValue + 1),
+        };
+        return obj;
+      } if (!_.isObject(content[corrent])) {
+        const obj = {
+          name: item,
+          type: 'unchanged',
+          value: content[item],
+          depth: depthValue,
+          children: [],
+        };
+        return obj;
+      } return console.error('wrong value');
+    };
+    return _.concat(prev, [check(corrent)]);
   }, []);
   return processedContent;
 };
 
 const compare = (obj1, obj2, depthValue) => {
   const keys = _.sortBy(createSharedKeys(obj1, obj2));
-  // const compared = [];
-  // keys.forEach((iter) => {
-  //   if ((obj1[iter] !== undefined) && (obj2[iter] !== undefined)) {
-  //     if ((_.isObject(obj1[iter])) && (_.isObject(obj2[iter]))) {
-  //       const obj = {};
-  //       obj.name = iter;
-  //       obj.type = 'unchanged';
-  //       obj.value = [];
-  //       obj.depth = depthValue;
-  //       obj.children = compare(obj1[iter], obj2[iter], depthValue + 1);
-  //       compared.push(obj);
-  //     } else {
-  //       if ((obj1[iter] !== obj2[iter])
-  //       && ((obj2[iter] !== undefined) && (obj2[iter] !== undefined))) {
-  //         if (!_.isObject(obj1[iter]) && !_.isObject(obj2[iter])) {
-  //           const objForDelited = {};
-  //           objForDelited.name = iter;
-  //           objForDelited.type = 'deleted';
-  //           objForDelited.value = obj1[iter];
-  //           objForDelited.depth = depthValue;
-  //           objForDelited.children = [];
-  //           compared.push(objForDelited);
-  //           const objForAdded = {};
-  //           objForAdded.name = iter;
-  //           objForAdded.type = 'updated';
-  //           objForAdded.value = obj2[iter];
-  //           objForAdded.depth = depthValue;
-  //           objForAdded.children = [];
-  //           compared.push(objForAdded);
-  //         } if (!_.isObject(obj1[iter]) && _.isObject(obj2[iter])) {
-  //           const objForDelited = {};
-  //           objForDelited.name = iter;
-  //           objForDelited.type = 'deleted';
-  //           objForDelited.value = obj1[iter];
-  //           objForDelited.depth = depthValue;
-  //           objForDelited.children = [];
-  //           compared.push(objForDelited);
-  //           const objForAdded = {};
-  //           objForAdded.name = iter;
-  //           objForAdded.type = 'updated';
-  //           objForAdded.value = [];
-  //           objForAdded.depth = depthValue;
-  //           objForAdded.children = createMassOfObjForVST(obj2[iter], depthValue + 1);
-  //           compared.push(objForAdded);
-  //         } if (_.isObject(obj1[iter]) && !_.isObject(obj2[iter])) {
-  //           const objForDelited = {};
-  //           objForDelited.name = iter;
-  //           objForDelited.type = 'deleted';
-  //           objForDelited.value = [];
-  //           objForDelited.depth = depthValue;
-  //           objForDelited.children = createMassOfObjForVST(obj1[iter], depthValue + 1);
-  //           compared.push(objForDelited);
-  //           const objForAdded = {};
-  //           objForAdded.name = iter;
-  //           objForAdded.type = 'updated';
-  //           objForAdded.value = obj2[iter];
-  //           objForAdded.depth = depthValue;
-  //           objForAdded.children = [];
-  //           compared.push(objForAdded);
-  //         }
-  //       } if (obj1[iter] === obj2[iter]) {
-  //         const obj = {};
-  //         obj.name = iter;
-  //         obj.type = 'unchanged';
-  //         obj.value = obj1[iter];
-  //         obj.depth = depthValue;
-  //         obj.children = [];
-  //         compared.push(obj);
-  //       }
-  //     }
-  //   } if (obj1[iter] === undefined) {
-  //     if (_.isObject(obj2[iter])) {
-  //       const objForAdded = {};
-  //       objForAdded.name = iter;
-  //       objForAdded.type = 'added';
-  //       objForAdded.value = [];
-  //       objForAdded.depth = depthValue;
-  //       objForAdded.children = createMassOfObjForVST(obj2[iter], depthValue + 1);
-  //       compared.push(objForAdded);
-  //     } else {
-  //       const objForAdded = {};
-  //       objForAdded.name = iter;
-  //       objForAdded.type = 'added';
-  //       objForAdded.value = obj2[iter];
-  //       objForAdded.depth = depthValue;
-  //       objForAdded.children = [];
-  //       compared.push(objForAdded);
-  //     }
-  //   } if (obj2[iter] === undefined) {
-  //     if (_.isObject(obj1[iter])) {
-  //       const objForDelited = {};
-  //       objForDelited.name = iter;
-  //       objForDelited.type = 'removed';
-  //       objForDelited.value = [];
-  //       objForDelited.depth = depthValue;
-  //       objForDelited.children = createMassOfObjForVST(obj1[iter], depthValue + 1);
-  //       compared.push(objForDelited);
-  //     } else {
-  //       const objForDelited = {};
-  //       objForDelited.name = iter;
-  //       objForDelited.type = 'removed';
-  //       objForDelited.value = obj1[iter];
-  //       objForDelited.depth = depthValue;
-  //       objForDelited.children = [];
-  //       compared.push(objForDelited);
-  //     }
-  //   }
-  // });
-  const isEmty = (a, b, c) => {
-    const d = [];
-    if (JSON.stringify(a) !== '{}') {
-      return _.concat(d, a);
-    } if (JSON.stringify(b) !== '{}' && JSON.stringify(c) !== '{}') {
-      return _.concat(d, b, c);
-    } if (JSON.stringify(b) === '{}' && JSON.stringify(c) !== '{}') {
-      return _.concat(d, c);
-    } if (JSON.stringify(b) !== '{}' && JSON.stringify(c) === '{}') {
-      return _.concat(d, b);
-    } return console.error('no arg');
-  };
   const compared = keys.reduce((acc, corrent) => {
-    // const compare = [];
-    const obj = {};
-    const objForDelited = {};
-    const objForAdded = {};
-    if ((obj1[corrent] !== undefined) && (obj2[corrent] !== undefined)) {
-      if ((_.isObject(obj1[corrent])) && (_.isObject(obj2[corrent]))) {
-        obj.name = corrent;
-        obj.type = 'unchanged';
-        obj.value = [];
-        obj.depth = depthValue;
-        obj.children = compare(obj1[corrent], obj2[corrent], depthValue + 1);
-        _.concat(compare, [obj]);
-      } else {
-        if ((obj1[corrent] !== obj2[corrent])
-        && ((obj2[corrent] !== undefined) && (obj2[corrent] !== undefined))) {
-          if (!_.isObject(obj1[corrent]) && !_.isObject(obj2[corrent])) {
-            objForDelited.name = corrent;
-            objForDelited.type = 'deleted';
-            objForDelited.value = obj1[corrent];
-            objForDelited.depth = depthValue;
-            objForDelited.children = [];
-            objForAdded.name = corrent;
-            objForAdded.type = 'updated';
-            objForAdded.value = obj2[corrent];
-            objForAdded.depth = depthValue;
-            objForAdded.children = [];
-          } if (!_.isObject(obj1[corrent]) && _.isObject(obj2[corrent])) {
-            objForDelited.name = corrent;
-            objForDelited.type = 'deleted';
-            objForDelited.value = obj1[corrent];
-            objForDelited.depth = depthValue;
-            objForDelited.children = [];
-            objForAdded.name = corrent;
-            objForAdded.type = 'updated';
-            objForAdded.value = [];
-            objForAdded.depth = depthValue;
-            objForAdded.children = createMassOfObjForVST(obj2[corrent], depthValue + 1);
-          } if (_.isObject(obj1[corrent]) && !_.isObject(obj2[corrent])) {
-            objForDelited.name = corrent;
-            objForDelited.type = 'deleted';
-            objForDelited.value = [];
-            objForDelited.depth = depthValue;
-            objForDelited.children = createMassOfObjForVST(obj1[corrent], depthValue + 1);
-            objForAdded.name = corrent;
-            objForAdded.type = 'updated';
-            objForAdded.value = obj2[corrent];
-            objForAdded.depth = depthValue;
-            objForAdded.children = [];
+    const check = (item) => {
+      if ((obj1[item] !== undefined) && (obj2[item] !== undefined)) {
+        if ((_.isObject(obj1[item])) && (_.isObject(obj2[item]))) {
+          const obj = {
+            name: item,
+            type: 'unchanged',
+            value: [],
+            depth: depthValue,
+            children: compare(obj1[item], obj2[item], depthValue + 1),
+          };
+          return [obj];
+        } if ((!_.isObject(obj1[item])) || (!_.isObject(obj2[item]))) {
+          if ((obj1[item] !== obj2[item])
+          && ((obj2[item] !== undefined) && (obj2[item] !== undefined))) {
+            if (!_.isObject(obj1[item]) && !_.isObject(obj2[item])) {
+              const objForDelited = {
+                name: item,
+                type: 'deleted',
+                value: obj1[item],
+                depth: depthValue,
+                children: [],
+              };
+              const objForAdded = {
+                name: item,
+                type: 'updated',
+                value: obj2[item],
+                depth: depthValue,
+                children: [],
+              };
+              return [objForDelited, objForAdded];
+            } if (!_.isObject(obj1[item]) && _.isObject(obj2[item])) {
+              const objForDelited = {
+                name: item,
+                type: 'deleted',
+                value: obj1[item],
+                depth: depthValue,
+                children: [],
+              };
+              const objForAdded = {
+                name: item,
+                type: 'updated',
+                value: [],
+                depth: depthValue,
+                children: createMassOfObjForVST(obj2[item], depthValue + 1),
+              };
+              return [objForDelited, objForAdded];
+            } if (_.isObject(obj1[item]) && !_.isObject(obj2[item])) {
+              const objForDelited = {
+                name: item,
+                type: 'deleted',
+                value: [],
+                depth: depthValue,
+                children: createMassOfObjForVST(obj1[item], depthValue + 1),
+              };
+              const objForAdded = {
+                name: item,
+                type: 'updated',
+                value: obj2[item],
+                depth: depthValue,
+                children: [],
+              };
+              return [objForDelited, objForAdded];
+            }
+          } if (obj1[item] === obj2[item]) {
+            const obj = {
+              name: item,
+              type: 'unchanged',
+              value: obj1[item],
+              depth: depthValue,
+              children: [],
+            };
+            return [obj];
           }
-        } if (obj1[corrent] === obj2[corrent]) {
-          obj.name = corrent;
-          obj.type = 'unchanged';
-          obj.value = obj1[corrent];
-          obj.depth = depthValue;
-          obj.children = [];
         }
-      }
-    } if (obj1[corrent] === undefined) {
-      if (_.isObject(obj2[corrent])) {
-        objForAdded.name = corrent;
-        objForAdded.type = 'added';
-        objForAdded.value = [];
-        objForAdded.depth = depthValue;
-        objForAdded.children = createMassOfObjForVST(obj2[corrent], depthValue + 1);
-      } else {
-        objForAdded.name = corrent;
-        objForAdded.type = 'added';
-        objForAdded.value = obj2[corrent];
-        objForAdded.depth = depthValue;
-        objForAdded.children = [];
-      }
-    } if (obj2[corrent] === undefined) {
-      if (_.isObject(obj1[corrent])) {
-        objForDelited.name = corrent;
-        objForDelited.type = 'removed';
-        objForDelited.value = [];
-        objForDelited.depth = depthValue;
-        objForDelited.children = createMassOfObjForVST(obj1[corrent], depthValue + 1);
-      } else {
-        objForDelited.name = corrent;
-        objForDelited.type = 'removed';
-        objForDelited.value = obj1[corrent];
-        objForDelited.depth = depthValue;
-        objForDelited.children = [];
-      }
-    } return _.concat(acc, isEmty(obj, objForDelited, objForAdded));
+      } if (obj1[item] === undefined) {
+        if (_.isObject(obj2[item])) {
+          const obj = {
+            name: item,
+            type: 'added',
+            value: [],
+            depth: depthValue,
+            children: createMassOfObjForVST(obj2[item], depthValue + 1),
+          };
+          return [obj];
+        } if (!_.isObject(obj2[item])) {
+          const obj = {
+            name: item,
+            type: 'added',
+            value: obj2[item],
+            depth: depthValue,
+            children: [],
+          };
+          return [obj];
+        }
+      } if (obj2[item] === undefined) {
+        if (_.isObject(obj1[item])) {
+          const obj = {
+            name: item,
+            type: 'removed',
+            value: [],
+            depth: depthValue,
+            children: createMassOfObjForVST(obj1[item], depthValue + 1),
+          };
+          return [obj];
+        } if (!_.isObject(obj1[item])) {
+          const obj = {
+            name: item,
+            type: 'removed',
+            value: obj1[item],
+            depth: depthValue,
+            children: [],
+          };
+          return [obj];
+        }
+      } return console.error('wrong input');
+    };
+    return _.concat(acc, check(corrent));
   }, []);
   return compared;
 };
