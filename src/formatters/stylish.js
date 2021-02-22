@@ -5,7 +5,7 @@ const added = '+ ';
 
 const formateStylish = (mass) => {
   const stylish = (mas) => mas.reduce((previousValue, correntValue) => {
-    if (correntValue.type === 'unchanged') {
+    if (correntValue.type === 'unchanged' || correntValue.type === 'attachment') {
       if (correntValue.children.length !== 0) {
         const str = `\n  ${indent.repeat(correntValue.depth)}${unchanged}${correntValue.name}: {${stylish(correntValue.children)}\n    ${indent.repeat(correntValue.depth)}}`;
         return previousValue + str;
