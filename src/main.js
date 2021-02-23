@@ -1,21 +1,25 @@
 import path from 'path';
 import _ from 'lodash';
 import parcer from './parsers.js';
-import { readFile } from './helpers.js';
+import readFile from './helpers.js';
 import convertToFormate from './formatters/index.js';
 
 const createSharedKeys = (obj1, obj2) => {
-  const keysOfFirstObj = Object.keys(obj1);
-  const keysOfSecondObj = Object.keys(obj2);
-  const sharedKeys = keysOfFirstObj.concat(keysOfSecondObj);
-  const uniqSharedKeys = _.sortBy(Array.from(new Set(sharedKeys)));
-  return uniqSharedKeys;
+  try {
+    const keysOfFirstObj = Object.keys(obj1);
+    const keysOfSecondObj = Object.keys(obj2);
+    const sharedKeys = keysOfFirstObj.concat(keysOfSecondObj);
+    const uniqSharedKeys = _.sortBy(Array.from(new Set(sharedKeys)));
+    return uniqSharedKeys;
+  } catch (e) {
+    return () => { throw new Error(); };
+  }
 };
 
 const createMassOfObjForVST = (content, depthValue = 0) => {
   const keys = _.sortBy(Object.keys(content));
   const processedContent = keys.reduce((prev, corrent) => {
-    const check = (item) => {
+    const makeObj = (item) => {
       if (_.isObject(content[item])) {
         const obj = {
           name: item,
@@ -36,7 +40,7 @@ const createMassOfObjForVST = (content, depthValue = 0) => {
         return obj;
       } return console.error('wrong value');
     };
-    return _.concat(prev, [check(corrent)]);
+    return _.concat(prev, [makeObj(corrent)]);
   }, []);
   return processedContent;
 };
@@ -44,7 +48,7 @@ const createMassOfObjForVST = (content, depthValue = 0) => {
 const compare = (obj1, obj2, depthValue, parentValue) => {
   const keys = _.sortBy(createSharedKeys(obj1, obj2));
   const compared = keys.reduce((acc, corrent) => {
-    const check = (item) => {
+    const makeObj = (item) => {
       if ((obj1[item] !== undefined) && (obj2[item] !== undefined)) {
         if ((_.isObject(obj1[item])) && (_.isObject(obj2[item]))) {
           const obj = {
@@ -175,7 +179,7 @@ const compare = (obj1, obj2, depthValue, parentValue) => {
         }
       } return console.error('wrong input');
     };
-    return _.concat(acc, check(corrent));
+    return _.concat(acc, makeObj(corrent));
   }, []);
   return compared;
 };

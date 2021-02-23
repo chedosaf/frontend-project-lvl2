@@ -1,10 +1,14 @@
 import fs from 'fs';
 import path from 'path';
 
-const isObject = (item) => (typeof item === 'object' && !Array.isArray(item) && item !== null);
-
 const getPath = (filePath) => path.resolve(process.cwd(), filePath);
 
-const readFile = (filePath) => fs.readFileSync(getPath(filePath), 'UTF-8');
+const readFile = (filePath) => {
+  try {
+    return fs.readFileSync(getPath(filePath), 'UTF-8');
+  } catch (e) {
+    return () => { throw new Error(); };
+  }
+};
 
-export { isObject, readFile };
+export default readFile;

@@ -4,7 +4,7 @@ const formatePlain = (mass) => {
   const complex = '[complex value]';
   const createQuotes = (item) => ((typeof item === 'boolean' || item === null || item === 0) ? item : `'${item}'`);
   const plain = (mas) => mas.reduce((acc, corrent) => {
-    const check = (item) => {
+    const makeString = (item) => {
       if (item.type === 'attachment' && item.children.length !== 0) {
         return plain(corrent.children);
       } if (corrent.type === 'updated') {
@@ -18,7 +18,7 @@ const formatePlain = (mass) => {
         return str;
       } return '';
     };
-    return acc + check(corrent);
+    return acc + makeString(corrent);
   }, '');
   return plain(mass).trim();
 };
