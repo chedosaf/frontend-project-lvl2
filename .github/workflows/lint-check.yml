@@ -17,10 +17,6 @@ jobs:
           check-latest: true
       - run: npm install
       
-      - uses: actions/checkout@v2
-      - name: Install lint
-        run: npm install
-      
       - name: Run eslint
         run: make lint
       
