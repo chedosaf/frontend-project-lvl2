@@ -18,7 +18,7 @@ jobs:
       - run: npm install
       
       - name: Run jest test
-        run: npm test
+        run: make test
       
       - name: Test & publish code coverage
         # Publish code coverage on Code Climate
