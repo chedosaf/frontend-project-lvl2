@@ -20,27 +20,52 @@ const createMassOfObjForVST = (content, depthValue = 0) => {
   const keys = _.sortBy(Object.keys(content));
   const processedContent = keys.reduce((prev, corrent) => {
     const makeObj = (item) => {
-      if (_.isObject(content[item])) {
-        const obj = {
-          name: item,
-          type: 'unchanged',
-          value: [],
-          depth: depthValue,
-          children: createMassOfObjForVST(content[item], depthValue + 1),
-        };
-        return obj;
-      } if (!_.isObject(content[corrent])) {
-        const obj = {
-          name: item,
-          type: 'unchanged',
-          value: content[item],
-          depth: depthValue,
-          children: [],
-        };
-        return obj;
-      } return console.error('wrong value');
-    };
-    return _.concat(prev, [makeObj(corrent)]);
+    //   if (_.isObject(content[item])) {
+    //     const obj = {
+    //       name: item,
+    //       type: 'unchanged',
+    //       value: [],
+    //       depth: depthValue,
+    //       children: createMassOfObjForVST(content[item], depthValue + 1),
+    //     };
+    //     return obj;
+    //   } if (!_.isObject(content[corrent])) {
+    //     const obj = {
+    //       name: item,
+    //       type: 'unchanged',
+    //       value: content[item],
+    //       depth: depthValue,
+    //       children: [],
+    //     };
+    //     return obj;
+    //   } return console.error('wrong value');
+    // };
+      switch (_.isObject(content[item])) {
+        case true: {
+          const obj = {
+            name: item,
+            type: 'unchanged',
+            value: [],
+            depth: depthValue,
+            children: createMassOfObjForVST(content[item], depthValue + 1),
+          };
+          return obj;
+        }
+        case false: {
+          const obj = {
+            name: item,
+            type: 'unchanged',
+            value: content[item],
+            depth: depthValue,
+            children: [],
+          };
+          return obj;
+        }
+        default: {
+          throw Error;
+        }
+      }
+    }; return _.concat(prev, [makeObj(corrent)]);
   }, []);
   return processedContent;
 };
@@ -177,7 +202,7 @@ const compare = (obj1, obj2, depthValue, parentValue) => {
           };
           return [obj];
         }
-      } return console.error('wrong input');
+      } throw Error;
     };
     return _.concat(acc, makeObj(corrent));
   }, []);
