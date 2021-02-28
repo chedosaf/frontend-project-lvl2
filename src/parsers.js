@@ -1,14 +1,11 @@
 import yaml from 'js-yaml';
 
-const parcer = (file, expansion) => {
-  switch (expansion) {
-    case '.yml':
-      return yaml.load(file);
-    case '.json':
-      return JSON.parse(file);
-    default:
-      return console.error('Wrong Format!');
-  }
+const parser = (file, expansion) => {
+  if (expansion === '.yml') {
+    return yaml.load(file);
+  } if (expansion === '.json') {
+    return JSON.parse(file);
+  } throw Error('Wrong Format');
 };
 
-export default parcer;
+export default parser;
