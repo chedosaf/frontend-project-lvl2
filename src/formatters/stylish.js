@@ -5,30 +5,30 @@ const added = '+ ';
 
 const formateStylish = (mass) => {
   const stylish = (mas) => mas.reduce((previousValue, correntValue) => {
-    if (correntValue.type === 'unchanged' || correntValue.type === 'attachment') {
-      if (correntValue.children.length !== 0) {
-        const str = `\n  ${indent.repeat(correntValue.depth)}${unchanged}${correntValue.name}: {${stylish(correntValue.children)}\n    ${indent.repeat(correntValue.depth)}}`;
-        return previousValue + str;
-      } if (correntValue.children.length === 0) {
-        const str = `\n  ${indent.repeat(correntValue.depth)}${unchanged}${correntValue.name}: ${correntValue.value}`;
-        return previousValue + str;
-      }
-    } if (correntValue.type === 'deleted' || correntValue.type === 'removed') {
-      if (correntValue.children.length !== 0) {
-        const str = `\n  ${indent.repeat(correntValue.depth)}${deleted}${correntValue.name}: {${stylish(correntValue.children)}\n    ${indent.repeat(correntValue.depth)}}`;
-        return previousValue + str;
-      } if (correntValue.children.length === 0) {
-        const str = `\n  ${indent.repeat(correntValue.depth)}${deleted}${correntValue.name}: ${correntValue.value}`;
-        return previousValue + str;
-      }
-    } if (correntValue.type === 'added' || correntValue.type === 'updated') {
-      if (correntValue.children.length !== 0) {
-        const str = `\n  ${indent.repeat(correntValue.depth)}${added}${correntValue.name}: {${stylish(correntValue.children)}\n    ${indent.repeat(correntValue.depth)}}`;
-        return previousValue + str;
-      } if (correntValue.children.length === 0) {
-        const str = `\n  ${indent.repeat(correntValue.depth)}${added}${correntValue.name}: ${correntValue.value}`;
-        return previousValue + str;
-      }
+    if ((correntValue.type === 'unchanged' || correntValue.type === 'attachment')
+    && (correntValue.children.length !== 0)) {
+      const str = `\n  ${indent.repeat(correntValue.depth)}${unchanged}${correntValue.name}: {${stylish(correntValue.children)}\n    ${indent.repeat(correntValue.depth)}}`;
+      return previousValue + str;
+    } if ((correntValue.type === 'unchanged' || correntValue.type === 'attachment')
+    && (correntValue.children.length === 0)) {
+      const str = `\n  ${indent.repeat(correntValue.depth)}${unchanged}${correntValue.name}: ${correntValue.value}`;
+      return previousValue + str;
+    } if ((correntValue.type === 'deleted' || correntValue.type === 'removed')
+      && (correntValue.children.length !== 0)) {
+      const str = `\n  ${indent.repeat(correntValue.depth)}${deleted}${correntValue.name}: {${stylish(correntValue.children)}\n    ${indent.repeat(correntValue.depth)}}`;
+      return previousValue + str;
+    } if ((correntValue.type === 'deleted' || correntValue.type === 'removed')
+    && (correntValue.children.length === 0)) {
+      const str = `\n  ${indent.repeat(correntValue.depth)}${deleted}${correntValue.name}: ${correntValue.value}`;
+      return previousValue + str;
+    } if ((correntValue.type === 'added' || correntValue.type === 'updated')
+      && (correntValue.children.length !== 0)) {
+      const str = `\n  ${indent.repeat(correntValue.depth)}${added}${correntValue.name}: {${stylish(correntValue.children)}\n    ${indent.repeat(correntValue.depth)}}`;
+      return previousValue + str;
+    } if ((correntValue.type === 'added' || correntValue.type === 'updated')
+      && (correntValue.children.length === 0)) {
+      const str = `\n  ${indent.repeat(correntValue.depth)}${added}${correntValue.name}: ${correntValue.value}`;
+      return previousValue + str;
     } return previousValue;
   }, '');
   const a = stylish(mass);

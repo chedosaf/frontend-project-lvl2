@@ -74,7 +74,7 @@ const compare = (obj1, obj2, depthValue, parentValue) => {
   const keys = _.sortBy(createSharedKeys(obj1, obj2));
   const compared = keys.reduce((acc, corrent) => {
     const makeObj = (item) => {
-      if ((obj1[item] !== undefined) && (obj2[item] !== undefined)) {
+      if (((obj1[item] !== undefined) && (obj2[item] !== undefined))) {
         if ((_.isObject(obj1[item])) && (_.isObject(obj2[item]))) {
           const obj = {
             name: item,
