@@ -1,8 +1,9 @@
 import _ from 'lodash';
 
+const complex = '[complex value]';
+const createQuotes = (item) => ((typeof item === 'boolean' || item === null || item === 0) ? item : `'${item}'`);
+
 const formatePlain = (mass) => {
-  const complex = '[complex value]';
-  const createQuotes = (item) => ((typeof item === 'boolean' || item === null || item === 0) ? item : `'${item}'`);
   const plain = (mas) => mas.reduce((acc, corrent) => {
     const makeString = (item) => {
       switch (item.type) {
