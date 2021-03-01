@@ -16,6 +16,17 @@ const createSharedKeys = (obj1, obj2) => {
   }
 };
 
+const makeSimpleObj = (key, parentValue, itemType, item, depthValue) => {
+  const obj = {
+    name: key,
+    path: parentValue,
+    type: itemType,
+    value: item[key],
+    depth: depthValue,
+    children: [],
+  }; return obj;
+};
+
 const compare = (obj1, obj2, depthValue, parentValue) => {
   const keys = _.sortBy(createSharedKeys(obj1, obj2));
   const compared = keys.reduce((acc, corrent) => {
@@ -41,24 +52,10 @@ const compare = (obj1, obj2, depthValue, parentValue) => {
         };
         return [obj];
       } if (obj1[item] === undefined) {
-        const obj = {
-          name: item,
-          path: parentValue,
-          type: 'added',
-          value: obj2[item],
-          depth: depthValue,
-          children: [],
-        };
+        const obj = makeSimpleObj(item, parentValue, 'added', obj2, depthValue);
         return [obj];
       } if (obj2[item] === undefined) {
-        const obj = {
-          name: item,
-          path: parentValue,
-          type: 'deleted',
-          value: obj1[item],
-          depth: depthValue,
-          children: [],
-        };
+        const obj = makeSimpleObj(item, parentValue, 'deleted', obj1, depthValue);
         return [obj];
       } if (JSON.stringify(obj1[item]) !== JSON.stringify(obj2[item])) {
         const obj = {
