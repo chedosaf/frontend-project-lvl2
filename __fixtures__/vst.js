@@ -25,7 +25,7 @@ const vst = [
       {
         name: 'setting2',
         path: ['common', '.'],
-        type: 'removed',
+        type: 'deleted',
         value: 200,
         depth: 1,
         children: [],
@@ -33,17 +33,9 @@ const vst = [
       {
         name: 'setting3',
         path: ['common', '.'],
-        type: 'deleted',
-        value: true,
-        depth: 1,
-        children: [],
-      },
-      {
-        name: 'setting3',
-        path: ['common', '.'],
         type: 'updated',
-        value: null,
         prevValue: true,
+        newValue: null,
         depth: 1,
         children: [],
       },
@@ -59,17 +51,9 @@ const vst = [
         name: 'setting5',
         path: ['common', '.'],
         type: 'added',
-        value: [],
+        value: { key5: 'value5' },
         depth: 1,
-        children: [
-          {
-            name: 'key5',
-            type: 'unchanged',
-            value: 'value5',
-            depth: 2,
-            children: [],
-          },
-        ],
+        children: [],
       },
       {
         name: 'setting6',
@@ -88,17 +72,9 @@ const vst = [
               {
                 name: 'wow',
                 path: ['common', '.', 'setting6', '.', 'doge', '.'],
-                type: 'deleted',
-                value: '',
-                depth: 3,
-                children: [],
-              },
-              {
-                name: 'wow',
-                path: ['common', '.', 'setting6', '.', 'doge', '.'],
                 type: 'updated',
-                value: 'so much',
                 prevValue: '',
+                newValue: 'so much',
                 depth: 3,
                 children: [],
               },
@@ -134,17 +110,9 @@ const vst = [
       {
         name: 'baz',
         path: ['group1', '.'],
-        type: 'deleted',
-        value: 'bas',
-        depth: 1,
-        children: [],
-      },
-      {
-        name: 'baz',
-        path: ['group1', '.'],
         type: 'updated',
-        value: 'bars',
         prevValue: 'bas',
+        newValue: 'bars',
         depth: 1,
         children: [],
       },
@@ -159,33 +127,9 @@ const vst = [
       {
         name: 'nest',
         path: ['group1', '.'],
-        type: 'deleted',
-        value: [],
-        depth: 1,
-        children: [
-          {
-            name: 'key',
-            type: 'unchanged',
-            value: 'value',
-            depth: 2,
-            children: [],
-          },
-        ],
-      },
-      {
-        name: 'nest',
-        path: ['group1', '.'],
         type: 'updated',
-        value: 'str',
-        prevValue: [
-          {
-            name: 'key',
-            type: 'unchanged',
-            value: 'value',
-            depth: 2,
-            children: [],
-          },
-        ],
+        prevValue: { key: 'value' },
+        newValue: 'str',
         depth: 1,
         children: [],
       },
@@ -194,68 +138,18 @@ const vst = [
   {
     name: 'group2',
     path: [],
-    type: 'removed',
-    value: [],
+    type: 'deleted',
+    value: { abc: 12345, deep: { id: 45 } },
     depth: 0,
-    children: [
-      {
-        name: 'abc',
-        type: 'unchanged',
-        value: 12345,
-        depth: 1,
-        children: [],
-      },
-      {
-        name: 'deep',
-        type: 'unchanged',
-        value: [],
-        depth: 1,
-        children: [
-          {
-            name: 'id', type: 'unchanged', value: 45, depth: 2, children: [],
-          },
-        ],
-      },
-    ],
+    children: [],
   },
   {
     name: 'group3',
     path: [],
     type: 'added',
-    value: [],
+    value: { fee: 100500, deep: { id: { number: 45 } } },
     depth: 0,
-    children: [
-      {
-        name: 'deep',
-        type: 'unchanged',
-        value: [],
-        depth: 1,
-        children: [
-          {
-            name: 'id',
-            type: 'unchanged',
-            value: [],
-            depth: 2,
-            children: [
-              {
-                name: 'number',
-                type: 'unchanged',
-                value: 45,
-                depth: 3,
-                children: [],
-              },
-            ],
-          },
-        ],
-      },
-      {
-        name: 'fee',
-        type: 'unchanged',
-        value: 100500,
-        depth: 1,
-        children: [],
-      },
-    ],
+    children: [],
   },
 ];
 

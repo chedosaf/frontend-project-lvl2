@@ -10,13 +10,13 @@ const formatePlain = (mass) => mass.reduce((acc, corrent) => {
         return `${formatePlain(corrent.children)}\n`;
       }
       case 'updated': {
-        return `Property '${item.path.join('')}${item.name}' was updated. From ${!_.isObject(item.prevValue) ? createQuotes(item.prevValue) : complex} to ${!_.isObject(item.value) ? createQuotes(item.value) : complex}\n`;
+        return `Property '${item.path.join('')}${item.name}' was updated. From ${!_.isObject(item.prevValue) ? createQuotes(item.prevValue) : complex} to ${!_.isObject(item.newValue) ? createQuotes(item.newValue) : complex}\n`;
       }
-      case 'removed': {
+      case 'deleted': {
         return `Property '${item.path.join('')}${item.name}' was removed\n`;
       }
       case 'added': {
-        return `Property '${item.path.join('')}${item.name}' was added with value: ${item.children.length === 0 ? createQuotes(item.value) : complex}\n`;
+        return `Property '${item.path.join('')}${item.name}' was added with value: ${!_.isObject(item.value) ? createQuotes(item.value) : complex}\n`;
       }
       default: {
         return '';
