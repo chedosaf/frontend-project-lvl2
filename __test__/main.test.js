@@ -9,9 +9,9 @@ const getFixturePath = (filename) => path.join(__dirname, '..', '__fixtures__', 
 const receivedStylish = genDiff(getFixturePath('fileBefore.yml'), getFixturePath('fileAfter.json'), 'stylish');
 const receivedPlain = genDiff(getFixturePath('fileBefore.yml'), getFixturePath('fileAfter.json'), 'plain');
 const receivedJson = genDiff(getFixturePath('fileBefore.yml'), getFixturePath('fileAfter.json'), 'json');
-const expectedJson = readFile(`${__dirname}/../__fixtures__/expectedJSON.json`);
-const expectedPlain = readFile(`${__dirname}/../__fixtures__/expectedPlain`);
-const expectedStylish = readFile(`${__dirname}/../__fixtures__/expectedStylish`);
+const expectedJson = readFile(getFixturePath('expectedJSON.json'));
+const expectedPlain = readFile(getFixturePath('expectedPlain'));
+const expectedStylish = readFile(getFixturePath('expectedStylish'));
 
 test.each([
   [receivedStylish, expectedStylish],
