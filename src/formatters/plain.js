@@ -6,21 +6,16 @@ const createQuotes = (item) => ((typeof item === 'boolean' || item === null || i
 const formatePlain = (mass) => mass.reduce((acc, corrent) => {
   const makeString = (item) => {
     switch (item.type) {
-      case 'attachment': {
+      case 'attachment':
         return `${formatePlain(corrent.children)}\n`;
-      }
-      case 'updated': {
+      case 'updated':
         return `Property '${item.path.join('')}${item.name}' was updated. From ${!_.isObject(item.prevValue) ? createQuotes(item.prevValue) : complex} to ${!_.isObject(item.newValue) ? createQuotes(item.newValue) : complex}\n`;
-      }
-      case 'deleted': {
+      case 'deleted':
         return `Property '${item.path.join('')}${item.name}' was removed\n`;
-      }
-      case 'added': {
+      case 'added':
         return `Property '${item.path.join('')}${item.name}' was added with value: ${!_.isObject(item.value) ? createQuotes(item.value) : complex}\n`;
-      }
-      default: {
+      default:
         return '';
-      }
     }
   };
   return acc + makeString(corrent);

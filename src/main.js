@@ -29,36 +29,32 @@ const makeSimpleObj = (key, parentValue, itemType, item, depthValue) => {
 
 const compare = (obj1, obj2, depthValue, parentValue) => {
   const keys = _.sortBy(createSharedKeys(obj1, obj2));
-  const compared = keys.reduce((acc, corrent) => {
+  const funcForReduce = (acc, corrent) => {
     const makeObj = (item) => {
-      if ((_.isObject(obj1[item])) && (_.isObject(obj2[item]))) {
-        const obj = {
-          name: item,
-          path: parentValue,
-          type: 'attachment',
-          value: [],
-          depth: depthValue,
-          children: compare(obj1[item], obj2[item], depthValue + 1, _.concat(parentValue, item, ['.'])),
-        };
-        return [obj];
-      } if (obj1[item] === obj2[item]) {
-        const obj = {
-          name: item,
-          path: parentValue,
-          type: 'unchanged',
-          value: obj1[item],
-          depth: depthValue,
-          children: [],
-        };
-        return [obj];
-      } if (obj1[item] === undefined) {
-        const obj = makeSimpleObj(item, parentValue, 'added', obj2, depthValue);
-        return [obj];
-      } if (obj2[item] === undefined) {
-        const obj = makeSimpleObj(item, parentValue, 'deleted', obj1, depthValue);
-        return [obj];
-      } if (JSON.stringify(obj1[item]) !== JSON.stringify(obj2[item])) {
-        const obj = {
+      switch (true) {
+        case ((_.isObject(obj1[item])) && (_.isObject(obj2[item]))):
+          return [{
+            name: item,
+            path: parentValue,
+            type: 'attachment',
+            value: [],
+            depth: depthValue,
+            children: compare(obj1[item], obj2[item], depthValue + 1, _.concat(parentValue, item, ['.'])),
+          }];
+        case (obj1[item] === obj2[item]):
+          return [{
+            name: item,
+            path: parentValue,
+            type: 'unchanged',
+            value: obj1[item],
+            depth: depthValue,
+            children: [],
+          }];
+        case (obj1[item] === undefined):
+          return [makeSimpleObj(item, parentValue, 'added', obj2, depthValue)];
+        case (obj2[item] === undefined):
+          return [makeSimpleObj(item, parentValue, 'deleted', obj1, depthValue)];
+        default: return [{
           name: item,
           path: parentValue,
           type: 'updated',
@@ -66,14 +62,11 @@ const compare = (obj1, obj2, depthValue, parentValue) => {
           newValue: obj2[item],
           depth: depthValue,
           children: [],
-        };
-        return [obj];
+        }];
       }
-      throw Error;
-    };
-    return _.concat(acc, makeObj(corrent));
-  }, []);
-  return compared;
+    }; return _.concat(acc, makeObj(corrent));
+  };
+  return keys.reduce(funcForReduce, []);
 };
 
 const genDiff = (filepath1, filepath2, formatName) => {
