@@ -16,22 +16,20 @@ const makeObjToStylishString = (obj, depth) => {
 
 const stylish = (mas) => mas.reduce((previousValue, correntValue) => {
   const makeStr = (type) => `\n  ${indent.repeat(correntValue.depth)}${type}${correntValue.name}: ${_.isObject(correntValue.value) ? makeObjToStylishString(correntValue.value, correntValue.depth + 1) : correntValue.value}`;
-  if (correntValue.type === 'attachment') {
-    const str = `\n  ${indent.repeat(correntValue.depth)}${unchanged}${correntValue.name}: {${stylish(correntValue.children)}\n    ${indent.repeat(correntValue.depth)}}`;
-    return previousValue + str;
-  } if (correntValue.type === 'unchanged') {
-    const str = `\n  ${indent.repeat(correntValue.depth)}${unchanged}${correntValue.name}: ${correntValue.value}`;
-    return previousValue + str;
-  } if (correntValue.type === 'deleted') {
-    const str = makeStr(deleted);
-    return previousValue + str;
-  } if (correntValue.type === 'added') {
-    const str = makeStr(added);
-    return previousValue + str;
-  } if (correntValue.type === 'updated') {
-    const str = `\n  ${indent.repeat(correntValue.depth)}${deleted}${correntValue.name}: ${_.isObject(correntValue.prevValue) ? makeObjToStylishString(correntValue.prevValue, correntValue.depth + 1) : correntValue.prevValue}\n  ${indent.repeat(correntValue.depth)}${added}${correntValue.name}: ${_.isObject(correntValue.newValue) ? makeObjToStylishString(correntValue.newValue, correntValue.depth + 1) : correntValue.newValue}`;
-    return previousValue + str;
-  } return previousValue;
+  switch (true) {
+    case (correntValue.type === 'attachment'):
+      return `${previousValue}\n  ${indent.repeat(correntValue.depth)}${unchanged}${correntValue.name}: {${stylish(correntValue.children)}\n    ${indent.repeat(correntValue.depth)}}`;
+    case (correntValue.type === 'unchanged'):
+      return `${previousValue}\n  ${indent.repeat(correntValue.depth)}${unchanged}${correntValue.name}: ${correntValue.value}`;
+    case (correntValue.type === 'deleted'):
+      return previousValue + makeStr(deleted);
+    case (correntValue.type === 'added'):
+      return previousValue + makeStr(added);
+    case (correntValue.type === 'updated'):
+      return `${previousValue}\n  ${indent.repeat(correntValue.depth)}${deleted}${correntValue.name}: ${_.isObject(correntValue.prevValue) ? makeObjToStylishString(correntValue.prevValue, correntValue.depth + 1) : correntValue.prevValue}\n  ${indent.repeat(correntValue.depth)}${added}${correntValue.name}: ${_.isObject(correntValue.newValue) ? makeObjToStylishString(correntValue.newValue, correntValue.depth + 1) : correntValue.newValue}`;
+    default:
+      return previousValue;
+  }
 }, '');
 
 const formateStylish = (mass) => {
