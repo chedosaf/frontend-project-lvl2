@@ -1,15 +1,12 @@
-import path from 'path';
 import _ from 'lodash';
 import parcer from './parsers.js';
-import readFile from './helpers.js';
 import convertToFormate from './formatters/index.js';
 
 const createSharedKeys = (obj1, obj2) => {
   try {
     const keysOfFirstObj = Object.keys(obj1);
     const keysOfSecondObj = Object.keys(obj2);
-    const sharedKeys = keysOfFirstObj.concat(keysOfSecondObj);
-    const uniqSharedKeys = _.sortBy(Array.from(new Set(sharedKeys)));
+    const uniqSharedKeys = _.union(keysOfFirstObj, keysOfSecondObj);
     return uniqSharedKeys;
   } catch (e) {
     return () => { throw new Error(); };
@@ -31,22 +28,24 @@ const compare = (obj1, obj2, depthValue, parentValue) => {
   const keys = _.sortBy(createSharedKeys(obj1, obj2));
   const funcForReduce = (acc, corrent) => {
     const makeObj = (item) => {
+      const value1 = obj1[item];
+      const value2 = obj2[item];
       switch (true) {
-        case ((_.isObject(obj1[item])) && (_.isObject(obj2[item]))):
+        case ((_.isObject(value1)) && (_.isObject(value2))):
           return [{
             name: item,
             path: parentValue,
             type: 'attachment',
             value: [],
             depth: depthValue,
-            children: compare(obj1[item], obj2[item], depthValue + 1, _.concat(parentValue, item, ['.'])),
+            children: compare(value1, value2, depthValue + 1, _.concat(parentValue, item, ['.'])),
           }];
         case (obj1[item] === obj2[item]):
           return [{
             name: item,
             path: parentValue,
             type: 'unchanged',
-            value: obj1[item],
+            value: value1,
             depth: depthValue,
             children: [],
           }];
@@ -58,8 +57,8 @@ const compare = (obj1, obj2, depthValue, parentValue) => {
           name: item,
           path: parentValue,
           type: 'updated',
-          prevValue: obj1[item],
-          newValue: obj2[item],
+          prevValue: value1,
+          newValue: value2,
           depth: depthValue,
           children: [],
         }];
@@ -70,8 +69,8 @@ const compare = (obj1, obj2, depthValue, parentValue) => {
 };
 
 const genDiff = (filepath1, filepath2, formatName) => {
-  const obj1 = parcer(readFile(filepath1), path.extname(filepath1));
-  const obj2 = parcer(readFile(filepath2), path.extname(filepath2));
+  const obj1 = parcer(filepath1);
+  const obj2 = parcer(filepath2);
   const vst = compare(obj1, obj2, 0, []);
   return convertToFormate(vst, formatName);
 };

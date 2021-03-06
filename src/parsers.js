@@ -1,10 +1,13 @@
 import yaml from 'js-yaml';
+import path from 'path';
+import readFile from './helpers.js';
 
-const parser = (file, expansion) => {
+const parser = (file) => {
+  const expansion = path.extname(file);
   if (expansion === '.yml') {
-    return yaml.load(file);
+    return yaml.load(readFile(file));
   } if (expansion === '.json') {
-    return JSON.parse(file);
+    return JSON.parse(readFile(file));
   } throw Error('Wrong Format');
 };
 
