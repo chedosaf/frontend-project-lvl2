@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import parcer from './parsers.js';
-import convertToFormate from './formatters/index.js';
+import formate from './formatters/index.js';
 
 const createSharedKeys = (obj1, obj2) => {
   try {
@@ -24,7 +24,7 @@ const makeSimpleObj = (key, parentValue, itemType, item, depthValue) => {
   }; return obj;
 };
 
-const compare = (obj1, obj2, depthValue, parentValue) => {
+const compare = (obj1, obj2, depthValue = 0, parentValue = []) => {
   const keys = _.sortBy(createSharedKeys(obj1, obj2));
   const funcForReduce = (acc, corrent) => {
     const makeObj = (item) => {
@@ -71,8 +71,8 @@ const compare = (obj1, obj2, depthValue, parentValue) => {
 const genDiff = (filepath1, filepath2, formatName) => {
   const obj1 = parcer(filepath1);
   const obj2 = parcer(filepath2);
-  const vst = compare(obj1, obj2, 0, []);
-  return convertToFormate(vst, formatName);
+  const vst = compare(obj1, obj2);
+  return formate(vst, formatName);
 };
 
 export default genDiff;

@@ -2,7 +2,7 @@ import formateStylish from './stylish.js';
 import formatePlain from './plain.js';
 import formateJson from './json.js';
 
-const convertToFormate = (tree, format) => {
+const formate = (tree, format) => {
   try {
     switch (format) {
       case 'stylish':
@@ -19,4 +19,4 @@ const convertToFormate = (tree, format) => {
   }
 };
 
-export default convertToFormate;
+export default formate;
