@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import path from 'path';
 import parcer from './parsers.js';
 import formate from './formatters/index.js';
 
@@ -69,8 +70,8 @@ const compare = (obj1, obj2, depthValue = 0, parentValue = []) => {
 };
 
 const genDiff = (filepath1, filepath2, formatName) => {
-  const obj1 = parcer(filepath1);
-  const obj2 = parcer(filepath2);
+  const obj1 = parcer(filepath1, path.extname(filepath1));
+  const obj2 = parcer(filepath2, path.extname(filepath2));
   const vst = compare(obj1, obj2);
   return formate(vst, formatName);
 };
