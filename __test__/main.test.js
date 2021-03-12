@@ -10,8 +10,8 @@ const before = getFixturePath('fileBefore.yml');
 const after = getFixturePath('fileAfter.json');
 test.each([
   'json', 'plain', 'stylish',
-])('gendiff.js should output the difference between the two files in expected format', (a) => {
-  const received = genDiff(before, after, a);
-  const expected = readFile(getFixturePath(a));
+])('gendiff.js should output the difference between the two files in expected format', (format) => {
+  const received = genDiff(before, after, format);
+  const expected = readFile(getFixturePath(format));
   expect(received).toBe(expected);
 });

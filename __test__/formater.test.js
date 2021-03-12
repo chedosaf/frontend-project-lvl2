@@ -10,9 +10,9 @@ const getFixturePath = (filename) => path.join(__dirname, '..', '__fixtures__', 
 
 test.each([
   'stylish', 'plain', 'json',
-])('convertToFormate should convert vst to right format', (a) => {
-  const expected = readFile(getFixturePath(a));
-  expect(convertToFormate(vst, a)).toBe(expected);
+])('convertToFormate should convert vst to right format', (format) => {
+  const expected = readFile(getFixturePath(format));
+  expect(convertToFormate(vst, format)).toBe(expected);
 });
 
 test('convertToFormate without format input should convert vst to Stylishformat', () => {
@@ -21,5 +21,5 @@ test('convertToFormate without format input should convert vst to Stylishformat'
 });
 
 test("convertToFormate should throw error if input tree doesn't have right format", () => {
-  expect(() => { convertToFormate(''); }).toThrow('Wrong tree');
+  expect(() => { convertToFormate(''); }).toThrow();
 });

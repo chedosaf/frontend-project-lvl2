@@ -2,6 +2,7 @@ import _ from 'lodash';
 import path from 'path';
 import parcer from './parsers.js';
 import formate from './formatters/index.js';
+import readFile from './helpers.js';
 
 const createSharedKeys = (obj1, obj2) => {
   try {
@@ -69,9 +70,11 @@ const compare = (obj1, obj2, depthValue = 0, parentValue = []) => {
   return keys.reduce(funcForReduce, []);
 };
 
+const getFormatName = (filepath) => path.extname(filepath).slice(1);
+
 const genDiff = (filepath1, filepath2, formatName) => {
-  const obj1 = parcer(filepath1, path.extname(filepath1));
-  const obj2 = parcer(filepath2, path.extname(filepath2));
+  const obj1 = parcer(readFile(filepath1), getFormatName(filepath1));
+  const obj2 = parcer(readFile(filepath2), getFormatName(filepath2));
   const vst = compare(obj1, obj2);
   return formate(vst, formatName);
 };

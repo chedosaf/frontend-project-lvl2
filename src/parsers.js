@@ -1,9 +1,8 @@
 import yaml from 'js-yaml';
-import readFile from './helpers.js';
 
 const parsers = {
-  '.yml': (a) => yaml.load(readFile(a)),
-  '.json': (a) => JSON.parse(readFile(a)),
+  yml: (obj) => yaml.load(obj),
+  json: (obj) => JSON.parse(obj),
 };
 
 const parser = (filepath, format) => parsers[format](filepath);
