@@ -17,8 +17,7 @@ const compare = (obj1, obj2) => {
   const keys = _.sortBy(uniqSharedKeys);
   const makeCompared = (acc, current) => {
     const makeNode = (key) => {
-      const prevValue = obj1[key];
-      const value = obj2[key];
+      const [prevValue, value] = [obj1[key], obj2[key]];
       switch (true) {
         case ((_.isObject(prevValue)) && (_.isObject(value))):
           return [createNode(key, 'attachment', [], compare(prevValue, value))];
