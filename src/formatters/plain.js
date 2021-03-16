@@ -4,21 +4,18 @@ const complex = '[complex value]';
 const createQuotes = (item) => ((typeof item === 'boolean' || item === null || item === 0) ? item : `'${item}'`);
 
 const formatePlain = (mass, path = []) => mass.reduce((acc, current) => {
-  const makeString = (item) => {
-    switch (item.type) {
-      case 'attachment':
-        return `${formatePlain(current.children, _.concat(path, item.name, ['.']))}\n`;
-      case 'updated':
-        return `Property '${path.join('')}${item.name}' was updated. From ${!_.isObject(item.prevValue) ? createQuotes(item.prevValue) : complex} to ${!_.isObject(item.newValue) ? createQuotes(item.newValue) : complex}\n`;
-      case 'deleted':
-        return `Property '${path.join('')}${item.name}' was removed\n`;
-      case 'added':
-        return `Property '${path.join('')}${item.name}' was added with value: ${!_.isObject(item.value) ? createQuotes(item.value) : complex}\n`;
-      default:
-        return '';
-    }
-  };
-  return acc + makeString(current);
+  switch (current.type) {
+    case 'attachment':
+      return `${acc}${formatePlain(current.children, _.concat(path, current.name, ['.']))}\n`;
+    case 'updated':
+      return `${acc}Property '${path.join('')}${current.name}' was updated. From ${!_.isObject(current.prevValue) ? createQuotes(current.prevValue) : complex} to ${!_.isObject(current.newValue) ? createQuotes(current.newValue) : complex}\n`;
+    case 'deleted':
+      return `${acc}Property '${path.join('')}${current.name}' was removed\n`;
+    case 'added':
+      return `${acc}Property '${path.join('')}${current.name}' was added with value: ${!_.isObject(current.value) ? createQuotes(current.value) : complex}\n`;
+    default:
+      return acc;
+  }
 }, '').trim();
 
 export default formatePlain;
