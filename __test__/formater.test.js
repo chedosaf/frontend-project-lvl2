@@ -1,6 +1,6 @@
 import { fileURLToPath } from 'url';
 import path, { dirname } from 'path';
-import readFile from '../src/helpers.js';
+import { readFile } from '../src/helpers.js';
 import convertToFormate from '../src/formatters/index.js';
 import vst from '../__fixtures__/vst.js';
 

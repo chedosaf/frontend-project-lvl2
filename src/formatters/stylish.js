@@ -5,28 +5,27 @@ const unchanged = '  ';
 const deleted = '- ';
 const added = '+ ';
 
-const makeObjToStylishString = (obj, depth) => {
-  const keys = _.sortBy(Object.keys(obj));
-  const str = keys.reduce((acc, corrent) => {
-    const a = `    ${corrent}: ${_.isObject(obj[corrent]) ? makeObjToStylishString(obj[corrent], depth + 1) : obj[corrent]}\n${indent.repeat(depth)}`;
-    return acc + a;
-  }, '');
-  return `{\n${indent.repeat(depth)}${str}}`;
-};
-
-const stylish = (mas) => mas.reduce((previousValue, correntValue) => {
-  const makeStr = (type) => `\n  ${indent.repeat(correntValue.depth)}${type}${correntValue.name}: ${_.isObject(correntValue.value) ? makeObjToStylishString(correntValue.value, correntValue.depth + 1) : correntValue.value}`;
+const stylish = (mas, depth = 0) => mas.reduce((previousValue, currentValue) => {
+  const makeObjToStylishString = (obj, curDepth) => {
+    const keys = _.sortBy(Object.keys(obj));
+    const str = keys.reduce((acc, current) => {
+      const a = `    ${current}: ${_.isObject(obj[current]) ? makeObjToStylishString(obj[current], curDepth + 1) : obj[current]}\n${indent.repeat(curDepth)}`;
+      return acc + a;
+    }, '');
+    return `{\n${indent.repeat(curDepth)}${str}}`;
+  };
+  const makeStr = (type) => `\n  ${indent.repeat(depth)}${type}${currentValue.name}: ${_.isObject(currentValue.value) ? makeObjToStylishString(currentValue.value, depth + 1) : currentValue.value}`;
   switch (true) {
-    case (correntValue.type === 'attachment'):
-      return `${previousValue}\n  ${indent.repeat(correntValue.depth)}${unchanged}${correntValue.name}: {${stylish(correntValue.children)}\n    ${indent.repeat(correntValue.depth)}}`;
-    case (correntValue.type === 'unchanged'):
-      return `${previousValue}\n  ${indent.repeat(correntValue.depth)}${unchanged}${correntValue.name}: ${correntValue.value}`;
-    case (correntValue.type === 'deleted'):
+    case (currentValue.type === 'attachment'):
+      return `${previousValue}\n  ${indent.repeat(depth)}${unchanged}${currentValue.name}: {${stylish(currentValue.children, depth + 1)}\n    ${indent.repeat(depth)}}`;
+    case (currentValue.type === 'unchanged'):
+      return `${previousValue}\n  ${indent.repeat(depth)}${unchanged}${currentValue.name}: ${currentValue.value}`;
+    case (currentValue.type === 'deleted'):
       return previousValue + makeStr(deleted);
-    case (correntValue.type === 'added'):
+    case (currentValue.type === 'added'):
       return previousValue + makeStr(added);
-    case (correntValue.type === 'updated'):
-      return `${previousValue}\n  ${indent.repeat(correntValue.depth)}${deleted}${correntValue.name}: ${_.isObject(correntValue.prevValue) ? makeObjToStylishString(correntValue.prevValue, correntValue.depth + 1) : correntValue.prevValue}\n  ${indent.repeat(correntValue.depth)}${added}${correntValue.name}: ${_.isObject(correntValue.newValue) ? makeObjToStylishString(correntValue.newValue, correntValue.depth + 1) : correntValue.newValue}`;
+    case (currentValue.type === 'updated'):
+      return `${previousValue}\n  ${indent.repeat(depth)}${deleted}${currentValue.name}: ${_.isObject(currentValue.prevValue) ? makeObjToStylishString(currentValue.prevValue, depth + 1) : currentValue.prevValue}\n  ${indent.repeat(depth)}${added}${currentValue.name}: ${_.isObject(currentValue.newValue) ? makeObjToStylishString(currentValue.newValue, depth + 1) : currentValue.newValue}`;
     default:
       return previousValue;
   }

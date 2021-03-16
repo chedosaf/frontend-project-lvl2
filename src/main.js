@@ -1,76 +1,59 @@
 import _ from 'lodash';
-import path from 'path';
 import parcer from './parsers.js';
 import formate from './formatters/index.js';
-import readFile from './helpers.js';
+import { readFile, getFormatName } from './helpers.js';
 
-const createSharedKeys = (obj1, obj2) => {
-  try {
-    const keysOfFirstObj = Object.keys(obj1);
-    const keysOfSecondObj = Object.keys(obj2);
-    const uniqSharedKeys = _.union(keysOfFirstObj, keysOfSecondObj);
-    return uniqSharedKeys;
-  } catch (e) {
-    return () => { throw new Error(); };
-  }
-};
-
-const makeSimpleObj = (key, parentValue, itemType, item, depthValue) => {
+const createNode = (key, nodeType, item, children = []) => {
   const obj = {
     name: key,
-    path: parentValue,
-    type: itemType,
-    value: item[key],
-    depth: depthValue,
-    children: [],
+    type: nodeType,
+    value: item,
+    children,
   }; return obj;
 };
 
-const compare = (obj1, obj2, depthValue = 0, parentValue = []) => {
-  const keys = _.sortBy(createSharedKeys(obj1, obj2));
-  const funcForReduce = (acc, corrent) => {
-    const makeObj = (item) => {
-      const value1 = obj1[item];
-      const value2 = obj2[item];
+const compare = (obj1, obj2) => {
+  const keysOfFirst = Object.keys(obj1);
+  const keysOfSecond = Object.keys(obj2);
+  const uniqSharedKeys = _.union(keysOfFirst, keysOfSecond);
+  const keys = _.sortBy(uniqSharedKeys);
+  const makeCompared = (acc, current) => {
+    const makeNode = (key) => {
+      const prevValue = obj1[key];
+      const value = obj2[key];
       switch (true) {
-        case ((_.isObject(value1)) && (_.isObject(value2))):
-          return [{
-            name: item,
-            path: parentValue,
-            type: 'attachment',
-            value: [],
-            depth: depthValue,
-            children: compare(value1, value2, depthValue + 1, _.concat(parentValue, item, ['.'])),
-          }];
-        case (obj1[item] === obj2[item]):
-          return [{
-            name: item,
-            path: parentValue,
-            type: 'unchanged',
-            value: value1,
-            depth: depthValue,
-            children: [],
-          }];
-        case (obj1[item] === undefined):
-          return [makeSimpleObj(item, parentValue, 'added', obj2, depthValue)];
-        case (obj2[item] === undefined):
-          return [makeSimpleObj(item, parentValue, 'deleted', obj1, depthValue)];
+        case ((_.isObject(prevValue)) && (_.isObject(value))):
+          return [createNode(key, 'attachment', [], compare(prevValue, value))];
+          // [{
+          //   name: key,
+          //   type: 'attachment',
+          //   value: [],
+          //   children: compare(prevValue, value),
+          // }];
+        case (prevValue === value):
+          return [createNode(key, 'unchanged', value)];
+          // [{
+          //   name: key,
+          //   type: 'unchanged',
+          //   value: prevValue,
+          //   children: [],
+          // }];
+        case (prevValue === undefined):
+          return [createNode(key, 'added', value)];
+        case (value === undefined):
+          return [createNode(key, 'deleted', prevValue)];
         default: return [{
-          name: item,
-          path: parentValue,
+          name: key,
           type: 'updated',
-          prevValue: value1,
-          newValue: value2,
-          depth: depthValue,
+          prevValue,
+          newValue: value,
           children: [],
         }];
       }
-    }; return _.concat(acc, makeObj(corrent));
+    }; return _.concat(acc, makeNode(current));
   };
-  return keys.reduce(funcForReduce, []);
+  return keys.reduce(makeCompared, []);
 };
-
-const getFormatName = (filepath) => path.extname(filepath).slice(1);
 
 const genDiff = (filepath1, filepath2, formatName) => {
   const obj1 = parcer(readFile(filepath1), getFormatName(filepath1));

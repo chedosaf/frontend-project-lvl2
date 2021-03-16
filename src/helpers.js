@@ -5,4 +5,6 @@ const getPath = (filePath) => path.resolve(process.cwd(), filePath);
 
 const readFile = (filePath) => fs.readFileSync(getPath(filePath), 'UTF-8').trim();
 
-export default readFile;
+const getFormatName = (filepath) => path.extname(filepath).slice(1);
+
+export { readFile, getFormatName };
