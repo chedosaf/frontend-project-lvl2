@@ -4,17 +4,17 @@ import formate from './formatters/index.js';
 import { readFile, getFormatName } from './helpers.js';
 
 const createNode = (key, nodeType, item, children = []) => {
-  const obj = {
+  const node = {
     name: key,
     type: nodeType,
     value: item,
     children,
-  }; return obj;
+  }; return node;
 };
 
 const compare = (obj1, obj2) => {
   const uniqSharedKeys = _.union(Object.keys(obj1), Object.keys(obj2));
-  const keys = _.sortBy(uniqSharedKeys);
+  const sortedKeys = _.sortBy(uniqSharedKeys);
   const makeCompared = (acc, current) => {
     const makeNode = (key) => {
       const [prevValue, value] = [obj1[key], obj2[key]];
@@ -37,7 +37,7 @@ const compare = (obj1, obj2) => {
       }
     }; return _.concat(acc, makeNode(current));
   };
-  return keys.reduce(makeCompared, []);
+  return sortedKeys.reduce(makeCompared, []);
 };
 
 const genDiff = (filepath1, filepath2, formatName) => {

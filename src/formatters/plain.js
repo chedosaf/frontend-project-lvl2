@@ -3,7 +3,7 @@ import _ from 'lodash';
 const complex = '[complex value]';
 const createQuotes = (item) => ((typeof item === 'boolean' || item === null || item === 0) ? item : `'${item}'`);
 
-const formatePlain = (mass, path = []) => mass.reduce((acc, current) => {
+const formatePlain = (arr, path = []) => arr.reduce((acc, current) => {
   switch (current.type) {
     case 'attachment':
       return `${acc}${formatePlain(current.children, _.concat(path, current.name, ['.']))}\n`;

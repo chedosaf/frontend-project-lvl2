@@ -5,15 +5,16 @@ const unchanged = '  ';
 const deleted = '- ';
 const added = '+ ';
 
+const makeStylishString = (obj, curDepth) => {
+  const keys = _.sortBy(Object.keys(obj));
+  const createStr = keys.reduce((acc, current) => {
+    const str = `    ${current}: ${_.isObject(obj[current]) ? makeStylishString(obj[current], curDepth + 1) : obj[current]}\n${indent.repeat(curDepth)}`;
+    return acc + str;
+  }, '');
+  return `{\n${indent.repeat(curDepth)}${createStr}}`;
+};
+
 const stylish = (arr, depth = 0) => arr.reduce((previousValue, currentValue) => {
-  const makeStylishString = (obj, curDepth) => {
-    const keys = _.sortBy(Object.keys(obj));
-    const create = keys.reduce((acc, current) => {
-      const str = `    ${current}: ${_.isObject(obj[current]) ? makeStylishString(obj[current], curDepth + 1) : obj[current]}\n${indent.repeat(curDepth)}`;
-      return acc + str;
-    }, '');
-    return `{\n${indent.repeat(curDepth)}${create}}`;
-  };
   const makeStr = (type) => `\n  ${indent.repeat(depth)}${type}${currentValue.name}: ${_.isObject(currentValue.value) ? makeStylishString(currentValue.value, depth + 1) : currentValue.value}`;
   switch (true) {
     case (currentValue.type === 'attachment'):
@@ -31,6 +32,6 @@ const stylish = (arr, depth = 0) => arr.reduce((previousValue, currentValue) => 
   }
 }, '');
 
-const formateStylish = (mass) => `{${stylish(mass)}\n}`;
+const formateStylish = (arr) => `{${stylish(arr)}\n}`;
 
 export default formateStylish;
