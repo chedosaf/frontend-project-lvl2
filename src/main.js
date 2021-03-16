@@ -24,20 +24,8 @@ const compare = (obj1, obj2) => {
       switch (true) {
         case ((_.isObject(prevValue)) && (_.isObject(value))):
           return [createNode(key, 'attachment', [], compare(prevValue, value))];
-          // [{
-          //   name: key,
-          //   type: 'attachment',
-          //   value: [],
-          //   children: compare(prevValue, value),
-          // }];
         case (prevValue === value):
           return [createNode(key, 'unchanged', value)];
-          // [{
-          //   name: key,
-          //   type: 'unchanged',
-          //   value: prevValue,
-          //   children: [],
-          // }];
         case (prevValue === undefined):
           return [createNode(key, 'added', value)];
         case (value === undefined):
