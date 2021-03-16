@@ -13,9 +13,7 @@ const createNode = (key, nodeType, item, children = []) => {
 };
 
 const compare = (obj1, obj2) => {
-  const keysOfFirst = Object.keys(obj1);
-  const keysOfSecond = Object.keys(obj2);
-  const uniqSharedKeys = _.union(keysOfFirst, keysOfSecond);
+  const uniqSharedKeys = _.union(Object.keys(obj1), Object.keys(obj2));
   const keys = _.sortBy(uniqSharedKeys);
   const makeCompared = (acc, current) => {
     const makeNode = (key) => {
