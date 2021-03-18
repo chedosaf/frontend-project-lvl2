@@ -3,41 +3,50 @@ import parcer from './parsers.js';
 import formate from './formatters/index.js';
 import { readFile, getFormatName } from './helpers.js';
 
-const createNode = (key, nodeType, item, children = []) => {
-  const node = {
-    name: key,
-    type: nodeType,
-    value: item,
-    children,
-  }; return node;
-};
-
 const compare = (obj1, obj2) => {
   const uniqSharedKeys = _.union(Object.keys(obj1), Object.keys(obj2));
   const sortedKeys = _.sortBy(uniqSharedKeys);
-  const makeCompared = (acc, current) => {
-    const makeNode = (key) => {
-      const [prevValue, value] = [obj1[key], obj2[key]];
-      switch (true) {
-        case ((_.isObject(prevValue)) && (_.isObject(value))):
-          return [createNode(key, 'attachment', [], compare(prevValue, value))];
-        case (prevValue === value):
-          return [createNode(key, 'unchanged', value)];
-        case (prevValue === undefined):
-          return [createNode(key, 'added', value)];
-        case (value === undefined):
-          return [createNode(key, 'deleted', prevValue)];
-        default: return [{
+  const makeNode = (key) => {
+    const [prevValue, value] = [obj1[key], obj2[key]];
+    switch (true) {
+      case ((_.isObject(prevValue)) && (_.isObject(value))):
+        return [{
           name: key,
-          type: 'updated',
-          prevValue,
-          newValue: value,
+          type: 'attachment',
+          value: [],
+          children: compare(prevValue, value),
+        }];
+      case (prevValue === value):
+        return [{
+          name: key,
+          type: 'unchanged',
+          value,
           children: [],
         }];
-      }
-    }; return _.concat(acc, makeNode(current));
+      case (prevValue === undefined):
+        return [{
+          name: key,
+          type: 'added',
+          value,
+          children: [],
+        }];
+      case (value === undefined):
+        return [{
+          name: key,
+          type: 'deleted',
+          value: prevValue,
+          children: [],
+        }];
+      default: return [{
+        name: key,
+        type: 'updated',
+        prevValue,
+        newValue: value,
+        children: [],
+      }];
+    }
   };
-  return sortedKeys.reduce(makeCompared, []);
+  return sortedKeys.flatMap(makeNode);
 };
 
 const genDiff = (filepath1, filepath2, formatName) => {
