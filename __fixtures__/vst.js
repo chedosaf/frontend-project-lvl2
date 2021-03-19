@@ -2,7 +2,6 @@ const vst = [
   {
     key: 'common',
     type: 'attachment',
-    value: [],
     children: [
       {
         key: 'follow',
@@ -38,12 +37,10 @@ const vst = [
       {
         key: 'setting6',
         type: 'attachment',
-        value: [],
         children: [
           {
             key: 'doge',
             type: 'attachment',
-            value: [],
             children: [
               {
                 key: 'wow',
@@ -70,7 +67,6 @@ const vst = [
   {
     key: 'group1',
     type: 'attachment',
-    value: [],
     children: [
       {
         key: 'baz',

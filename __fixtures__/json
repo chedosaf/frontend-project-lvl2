@@ -2,7 +2,6 @@
   {
     "key": "common",
     "type": "attachment",
-    "value": [],
     "children": [
       {
         "key": "follow",
@@ -40,12 +39,10 @@
       {
         "key": "setting6",
         "type": "attachment",
-        "value": [],
         "children": [
           {
             "key": "doge",
             "type": "attachment",
-            "value": [],
             "children": [
               {
                 "key": "wow",
@@ -72,7 +69,6 @@
   {
     "key": "group1",
     "type": "attachment",
-    "value": [],
     "children": [
       {
         "key": "baz",

@@ -10,12 +10,7 @@ const compare = (obj1, obj2) => {
     const [prevValue, value] = [obj1[key], obj2[key]];
     switch (true) {
       case ((_.isObject(prevValue)) && (_.isObject(value))):
-        return {
-          key,
-          type: 'attachment',
-          value: [],
-          children: compare(prevValue, value),
-        };
+        return { key, type: 'attachment', children: compare(prevValue, value) };
       case (prevValue === value):
         return { key, type: 'unchanged', value };
       case (prevValue === undefined):
