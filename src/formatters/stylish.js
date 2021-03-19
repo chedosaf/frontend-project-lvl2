@@ -1,34 +1,34 @@
 import _ from 'lodash';
 
 const indent = '    ';
-const unchanged = '  ';
-const deleted = '- ';
-const added = '+ ';
 
-const makeStylishString = (obj, curDepth) => {
+const createSpace = (depth) => indent.repeat(depth);
+
+const makeStylishString = (obj, depth) => {
   const keys = _.sortBy(Object.keys(obj));
   const createStr = keys.reduce((acc, current) => {
-    const str = `    ${current}: ${_.isObject(obj[current]) ? makeStylishString(obj[current], curDepth + 1) : obj[current]}\n${indent.repeat(curDepth)}`;
+    const value = obj[current];
+    const str = `    ${current}: ${_.isObject(value) ? makeStylishString(value, depth + 1) : value}\n${createSpace(depth)}`;
     return acc + str;
   }, '');
-  return `{\n${indent.repeat(curDepth)}${createStr}}`;
+  return `{\n${createSpace(depth)}${createStr}}`;
 };
 
-const stylish = (arr, depth = 0) => arr.reduce((previousValue, currentValue) => {
-  const makeStr = (type) => `\n  ${indent.repeat(depth)}${type}${currentValue.key}: ${_.isObject(currentValue.value) ? makeStylishString(currentValue.value, depth + 1) : currentValue.value}`;
+const stylish = (arr, depth = 0) => arr.reduce((acc, currentValue) => {
   switch (currentValue.type) {
     case 'attachment':
-      return `${previousValue}\n  ${indent.repeat(depth)}${unchanged}${currentValue.key}: {${stylish(currentValue.children, depth + 1)}\n    ${indent.repeat(depth)}}`;
+      return `${acc}\n  ${createSpace(depth)}  ${currentValue.key}: {${stylish(currentValue.children, depth + 1)}\n    ${createSpace(depth)}}`;
     case 'unchanged':
-      return `${previousValue}\n  ${indent.repeat(depth)}${unchanged}${currentValue.key}: ${currentValue.value}`;
+      return `${acc}\n  ${createSpace(depth)}  ${currentValue.key}: ${currentValue.value}`;
     case 'deleted':
-      return previousValue + makeStr(deleted);
+      return `${acc}\n  ${createSpace(depth)}- ${currentValue.key}: ${_.isObject(currentValue.value) ? makeStylishString(currentValue.value, depth + 1) : currentValue.value}`;
     case 'added':
-      return previousValue + makeStr(added);
+      return `${acc}\n  ${createSpace(depth)}+ ${currentValue.key}: ${_.isObject(currentValue.value) ? makeStylishString(currentValue.value, depth + 1) : currentValue.value}`;
     case 'updated':
-      return `${previousValue}\n  ${indent.repeat(depth)}${deleted}${currentValue.key}: ${_.isObject(currentValue.prevValue) ? makeStylishString(currentValue.prevValue, depth + 1) : currentValue.prevValue}\n  ${indent.repeat(depth)}${added}${currentValue.key}: ${_.isObject(currentValue.value) ? makeStylishString(currentValue.value, depth + 1) : currentValue.value}`;
+      return `${acc}\n  ${createSpace(depth)}- ${currentValue.key}: ${_.isObject(currentValue.prevValue) ? makeStylishString(currentValue.prevValue, depth + 1) : currentValue.prevValue}
+  ${createSpace(depth)}+ ${currentValue.key}: ${_.isObject(currentValue.value) ? makeStylishString(currentValue.value, depth + 1) : currentValue.value}`;
     default:
-      return previousValue;
+      return acc;
   }
 }, '');
 
