@@ -9,7 +9,8 @@ const formatePlain = (arr, path = []) => arr.reduce((acc, current) => {
     case 'attachment':
       return `${acc}${formatePlain(current.children, [...path, current.key])}\n`;
     case 'updated':
-      return `${acc}Property '${getPath(path, current.key)}' was updated. From ${!_.isObject(current.prevValue) ? createQuotes(current.prevValue) : complex} to ${!_.isObject(current.value) ? createQuotes(current.value) : complex}\n`;
+      return `${acc}Property '${getPath(path, current.key)}' was updated. From ${!_.isObject(current.prevValue)
+        ? createQuotes(current.prevValue) : complex} to ${!_.isObject(current.value) ? createQuotes(current.value) : complex}\n`;
     case 'deleted':
       return `${acc}Property '${getPath(path, current.key)}' was removed\n`;
     case 'added':
