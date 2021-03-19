@@ -15,18 +15,18 @@ const makeStylishString = (obj, curDepth) => {
 };
 
 const stylish = (arr, depth = 0) => arr.reduce((previousValue, currentValue) => {
-  const makeStr = (type) => `\n  ${indent.repeat(depth)}${type}${currentValue.name}: ${_.isObject(currentValue.value) ? makeStylishString(currentValue.value, depth + 1) : currentValue.value}`;
-  switch (true) {
-    case (currentValue.type === 'attachment'):
-      return `${previousValue}\n  ${indent.repeat(depth)}${unchanged}${currentValue.name}: {${stylish(currentValue.children, depth + 1)}\n    ${indent.repeat(depth)}}`;
-    case (currentValue.type === 'unchanged'):
-      return `${previousValue}\n  ${indent.repeat(depth)}${unchanged}${currentValue.name}: ${currentValue.value}`;
-    case (currentValue.type === 'deleted'):
+  const makeStr = (type) => `\n  ${indent.repeat(depth)}${type}${currentValue.key}: ${_.isObject(currentValue.value) ? makeStylishString(currentValue.value, depth + 1) : currentValue.value}`;
+  switch (currentValue.type) {
+    case 'attachment':
+      return `${previousValue}\n  ${indent.repeat(depth)}${unchanged}${currentValue.key}: {${stylish(currentValue.children, depth + 1)}\n    ${indent.repeat(depth)}}`;
+    case 'unchanged':
+      return `${previousValue}\n  ${indent.repeat(depth)}${unchanged}${currentValue.key}: ${currentValue.value}`;
+    case 'deleted':
       return previousValue + makeStr(deleted);
-    case (currentValue.type === 'added'):
+    case 'added':
       return previousValue + makeStr(added);
-    case (currentValue.type === 'updated'):
-      return `${previousValue}\n  ${indent.repeat(depth)}${deleted}${currentValue.name}: ${_.isObject(currentValue.prevValue) ? makeStylishString(currentValue.prevValue, depth + 1) : currentValue.prevValue}\n  ${indent.repeat(depth)}${added}${currentValue.name}: ${_.isObject(currentValue.newValue) ? makeStylishString(currentValue.newValue, depth + 1) : currentValue.newValue}`;
+    case 'updated':
+      return `${previousValue}\n  ${indent.repeat(depth)}${deleted}${currentValue.key}: ${_.isObject(currentValue.prevValue) ? makeStylishString(currentValue.prevValue, depth + 1) : currentValue.prevValue}\n  ${indent.repeat(depth)}${added}${currentValue.key}: ${_.isObject(currentValue.value) ? makeStylishString(currentValue.value, depth + 1) : currentValue.value}`;
     default:
       return previousValue;
   }

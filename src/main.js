@@ -10,43 +10,27 @@ const compare = (obj1, obj2) => {
     const [prevValue, value] = [obj1[key], obj2[key]];
     switch (true) {
       case ((_.isObject(prevValue)) && (_.isObject(value))):
-        return [{
-          name: key,
+        return {
+          key,
           type: 'attachment',
           value: [],
           children: compare(prevValue, value),
-        }];
+        };
       case (prevValue === value):
-        return [{
-          name: key,
-          type: 'unchanged',
-          value,
-          children: [],
-        }];
+        return { key, type: 'unchanged', value };
       case (prevValue === undefined):
-        return [{
-          name: key,
-          type: 'added',
-          value,
-          children: [],
-        }];
+        return { key, type: 'added', value };
       case (value === undefined):
-        return [{
-          name: key,
-          type: 'deleted',
-          value: prevValue,
-          children: [],
-        }];
-      default: return [{
-        name: key,
+        return { key, type: 'deleted', value: prevValue };
+      default: return {
+        key,
         type: 'updated',
         prevValue,
-        newValue: value,
-        children: [],
-      }];
+        value,
+      };
     }
   };
-  return sortedKeys.flatMap(makeNode);
+  return sortedKeys.map(makeNode);
 };
 
 const genDiff = (filepath1, filepath2, formatName) => {

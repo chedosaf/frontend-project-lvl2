@@ -1,125 +1,112 @@
 [
   {
-    "name": "common",
+    "key": "common",
     "type": "attachment",
     "value": [],
     "children": [
       {
-        "name": "follow",
+        "key": "follow",
         "type": "added",
-        "value": false,
-        "children": []
+        "value": false
       },
       {
-        "name": "setting1",
+        "key": "setting1",
         "type": "unchanged",
-        "value": "Value 1",
-        "children": []
+        "value": "Value 1"
       },
       {
-        "name": "setting2",
+        "key": "setting2",
         "type": "deleted",
-        "value": 200,
-        "children": []
+        "value": 200
       },
       {
-        "name": "setting3",
+        "key": "setting3",
         "type": "updated",
         "prevValue": true,
-        "newValue": null,
-        "children": []
+        "value": null
       },
       {
-        "name": "setting4",
+        "key": "setting4",
         "type": "added",
-        "value": "blah blah",
-        "children": []
+        "value": "blah blah"
       },
       {
-        "name": "setting5",
+        "key": "setting5",
         "type": "added",
         "value": {
           "key5": "value5"
-        },
-        "children": []
+        }
       },
       {
-        "name": "setting6",
+        "key": "setting6",
         "type": "attachment",
         "value": [],
         "children": [
           {
-            "name": "doge",
+            "key": "doge",
             "type": "attachment",
             "value": [],
             "children": [
               {
-                "name": "wow",
+                "key": "wow",
                 "type": "updated",
                 "prevValue": "",
-                "newValue": "so much",
-                "children": []
+                "value": "so much"
               }
             ]
           },
           {
-            "name": "key",
+            "key": "key",
             "type": "unchanged",
-            "value": "value",
-            "children": []
+            "value": "value"
           },
           {
-            "name": "ops",
+            "key": "ops",
             "type": "added",
-            "value": "vops",
-            "children": []
+            "value": "vops"
           }
         ]
       }
     ]
   },
   {
-    "name": "group1",
+    "key": "group1",
     "type": "attachment",
     "value": [],
     "children": [
       {
-        "name": "baz",
+        "key": "baz",
         "type": "updated",
         "prevValue": "bas",
-        "newValue": "bars",
-        "children": []
+        "value": "bars"
       },
       {
-        "name": "foo",
+        "key": "foo",
         "type": "unchanged",
-        "value": "bar",
-        "children": []
+        "value": "bar"
       },
       {
-        "name": "nest",
+        "key": "nest",
         "type": "updated",
         "prevValue": {
           "key": "value"
         },
-        "newValue": "str",
-        "children": []
+        "value": "str"
       }
     ]
   },
   {
-    "name": "group2",
+    "key": "group2",
     "type": "deleted",
     "value": {
       "abc": 12345,
       "deep": {
         "id": 45
       }
-    },
-    "children": []
+    }
   },
   {
-    "name": "group3",
+    "key": "group3",
     "type": "added",
     "value": {
       "fee": 100500,
@@ -128,7 +115,6 @@
           "number": 45
         }
       }
-    },
-    "children": []
+    }
   }
 ]
