@@ -1,6 +1,8 @@
 import _ from 'lodash';
 
 const indent = '    ';
+const deleted = '- ';
+const added = '+ ';
 
 const createSpace = (depth) => indent.repeat(depth);
 
@@ -15,15 +17,16 @@ const makeStylishString = (obj, depth) => {
 };
 
 const stylish = (arr, depth = 0) => arr.reduce((acc, currentValue) => {
+  const makeStr = (type) => `${acc}\n  ${createSpace(depth)}${type}${currentValue.key}: ${_.isObject(currentValue.value) ? makeStylishString(currentValue.value, depth + 1) : currentValue.value}`;
   switch (currentValue.type) {
     case 'attachment':
       return `${acc}\n  ${createSpace(depth)}  ${currentValue.key}: {${stylish(currentValue.children, depth + 1)}\n    ${createSpace(depth)}}`;
     case 'unchanged':
       return `${acc}\n  ${createSpace(depth)}  ${currentValue.key}: ${currentValue.value}`;
     case 'deleted':
-      return `${acc}\n  ${createSpace(depth)}- ${currentValue.key}: ${_.isObject(currentValue.value) ? makeStylishString(currentValue.value, depth + 1) : currentValue.value}`;
+      return makeStr(deleted);
     case 'added':
-      return `${acc}\n  ${createSpace(depth)}+ ${currentValue.key}: ${_.isObject(currentValue.value) ? makeStylishString(currentValue.value, depth + 1) : currentValue.value}`;
+      return makeStr(added);
     case 'updated':
       return `${acc}\n  ${createSpace(depth)}- ${currentValue.key}: ${_.isObject(currentValue.prevValue) ? makeStylishString(currentValue.prevValue, depth + 1) : currentValue.prevValue}
   ${createSpace(depth)}+ ${currentValue.key}: ${_.isObject(currentValue.value) ? makeStylishString(currentValue.value, depth + 1) : currentValue.value}`;
