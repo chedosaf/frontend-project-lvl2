@@ -1,6 +1,35 @@
 ### Hexlet tests and linter status:
 [![Actions Status](https://github.com/chedosaf/frontend-project-lvl2/workflows/hexlet-check/badge.svg)](https://github.com/chedosaf/frontend-project-lvl2/actions)
 
+# Приложение "Вычислитель отличий"
+
+Приложение служит для выявления отличий 2х файлов.<br>
+
+## Установка:
+```
+  $ make install
+  $ npm link
+```
+
+Поддерживаемые форматы файлов:
+- Ymal
+- Json
+
+Поддерживаемые форматы вывода:
+- Stylish (формат по умолчанию)
+```
+$ gendiff --format stylish filepath1.json filepath2.json
+```
+- Json
+```
+$ gendiff --format json filepath1.json filepath2.json
+```
+- Plain
+```
+$ gendiff --format plain filepath1.json filepath2.json
+```
+
+
 <a href="https://codeclimate.com/github/chedosaf/frontend-project-lvl2/maintainability"><img src="https://api.codeclimate.com/v1/badges/78878c20dd18706d14f8/maintainability" /></a><br>
 
 <a href="https://codeclimate.com/github/chedosaf/frontend-project-lvl2/test_coverage"><img src="https://api.codeclimate.com/v1/badges/78878c20dd18706d14f8/test_coverage" /></a>

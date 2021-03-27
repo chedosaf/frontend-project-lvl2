@@ -44,7 +44,7 @@ const stylish = (arr, depth = 1) => {
       case 'updated':
         return stringify(cur);
       default:
-        throw Error('Wrong type of node');
+        throw Error('Unknown type of node');
     }
   }).join('\n');
   return `{\n${arrey}\n${createSpace(depth - 1)}}`;
