@@ -22,10 +22,8 @@ const stylish = (arr, depth = 1) => {
       return `${createSpace(depth)}${type}${obj.key}: ${stylish(obj.children, depth + 2)}`;
     } if (_.has(obj, 'prevValue')) {
       return `${createSpace(depth)}- ${obj.key}: ${_.isObject(obj.prevValue)
-        ? makeStylishString(obj.prevValue, depth + 2)
-        : obj.prevValue}\n${createSpace(depth)}+ ${obj.key}: ${_.isObject(obj.value)
-        ? makeStylishString(obj.value, depth + 2)
-        : obj.value}`;
+        ? makeStylishString(obj.prevValue, depth + 2) : obj.prevValue}\n${createSpace(depth)}+ ${obj.key}: ${_.isObject(obj.value)
+        ? makeStylishString(obj.value, depth + 2) : obj.value}`;
     } return `${createSpace(depth)}${type}${obj.key}: ${_.isObject(obj.value) ? makeStylishString(obj.value, depth + 2) : obj.value}`;
   };
   const arrey = arr.flatMap((cur) => {
