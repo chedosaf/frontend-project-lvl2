@@ -8,11 +8,11 @@ const createSpace = (depth) => indent.repeat(depth);
 
 const makeStylishString = (obj, depth) => {
   const keys = _.sortBy(Object.keys(obj));
-  const createStr = keys.reduce((acc, cur) => {
-    const value = obj[cur];
-    const str = `${createSpace(depth)}  ${cur}: ${_.isObject(value) ? makeStylishString(value, depth + 2) : value}\n`;
-    return acc + str;
-  }, '');
+  const createStr = keys.map((key) => {
+    const value = obj[key];
+    const str = `${createSpace(depth)}  ${key}: ${_.isObject(value) ? makeStylishString(value, depth + 2) : value}\n`;
+    return str;
+  }, '').join('');
   return `{\n${createStr}${createSpace(depth - 1)}}`;
 };
 
