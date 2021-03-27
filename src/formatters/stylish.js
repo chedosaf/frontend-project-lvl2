@@ -16,33 +16,24 @@ const makeStylishString = (obj, depth) => {
   return `{\n${createStr}${createSpace(depth - 1)}}`;
 };
 
+const stringify = (depth, obj, type = indent, value) => {
+  const strValue = _.isObject(value) ? makeStylishString(value, depth + 2) : value;
+  return `${createSpace(depth)}${type}${obj.key}: ${strValue}`;
+};
+
 const stylish = (arr, depth = 1) => {
-  const stringify = (obj, type = indent) => {
-    switch (true) {
-      case (!_.has(obj, 'value')):
-        return `${createSpace(depth)}${type}${obj.key}: ${stylish(obj.children, depth + 2)}`;
-      case (_.has(obj, 'prevValue')):
-        return `${createSpace(depth)}- ${obj.key}: ${_.isObject(obj.prevValue)
-          ? makeStylishString(obj.prevValue, depth + 2) : obj.prevValue}\n${createSpace(depth)}+ ${obj.key}: ${_.isObject(obj.value)
-          ? makeStylishString(obj.value, depth + 2) : obj.value}`;
-      case (_.has(obj, 'value')):
-        return `${createSpace(depth)}${type}${obj.key}: ${_.isObject(obj.value) ? makeStylishString(obj.value, depth + 2) : obj.value}`;
-      default:
-        throw Error('Wrong type of node!');
-    }
-  };
   const arrey = arr.map((cur) => {
     switch (cur.type) {
       case 'attachment':
-        return stringify(cur);
+        return stringify(depth, cur, indent, stylish(cur.children, depth + 2));
       case 'unchanged':
-        return stringify(cur);
+        return stringify(depth, cur, indent, cur.value);
       case 'deleted':
-        return stringify(cur, deleted);
+        return stringify(depth, cur, deleted, cur.value);
       case 'added':
-        return stringify(cur, added);
+        return stringify(depth, cur, added, cur.value);
       case 'updated':
-        return stringify(cur);
+        return `${stringify(depth, cur, deleted, cur.prevValue)}\n${stringify(depth, cur, added, cur.value)}`;
       default:
         throw Error('Unknown type of node');
     }
