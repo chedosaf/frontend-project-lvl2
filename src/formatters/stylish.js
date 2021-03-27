@@ -31,7 +31,7 @@ const stylish = (arr, depth = 1) => {
         throw Error('Wrong type of node!');
     }
   };
-  const arrey = arr.flatMap((cur) => {
+  const arrey = arr.map((cur) => {
     switch (cur.type) {
       case 'attachment':
         return stringify(cur);
