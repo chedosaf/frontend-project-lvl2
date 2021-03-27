@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-const indent = '    ';
+const indent = '  ';
 const deleted = '- ';
 const added = '+ ';
 
@@ -10,31 +10,41 @@ const makeStylishString = (obj, depth) => {
   const keys = _.sortBy(Object.keys(obj));
   const createStr = keys.reduce((acc, cur) => {
     const value = obj[cur];
-    const str = `    ${cur}: ${_.isObject(value) ? makeStylishString(value, depth + 1) : value}\n${createSpace(depth)}`;
+    const str = `${createSpace(depth)}  ${cur}: ${_.isObject(value) ? makeStylishString(value, depth + 2) : value}\n`;
     return acc + str;
   }, '');
-  return `{\n${createSpace(depth)}${createStr}}`;
+  return `{\n${createStr}${createSpace(depth - 1)}}`;
 };
 
-const stylish = (arr, depth = 0) => arr.reduce((acc, cur) => {
-  const makeStr = (type) => `${acc}\n  ${createSpace(depth)}${type}${cur.key}: ${_.isObject(cur.value) ? makeStylishString(cur.value, depth + 1) : cur.value}`;
-  switch (cur.type) {
-    case 'attachment':
-      return `${acc}\n  ${createSpace(depth)}  ${cur.key}: {${stylish(cur.children, depth + 1)}\n    ${createSpace(depth)}}`;
-    case 'unchanged':
-      return `${acc}\n  ${createSpace(depth)}  ${cur.key}: ${cur.value}`;
-    case 'deleted':
-      return makeStr(deleted);
-    case 'added':
-      return makeStr(added);
-    case 'updated':
-      return `${acc}\n  ${createSpace(depth)}- ${cur.key}: ${_.isObject(cur.prevValue) ? makeStylishString(cur.prevValue, depth + 1) : cur.prevValue}
-  ${createSpace(depth)}+ ${cur.key}: ${_.isObject(cur.value) ? makeStylishString(cur.value, depth + 1) : cur.value}`;
-    default:
-      return acc;
-  }
-}, '');
+const stylish = (arr, depth = 1) => {
+  const stringify = (obj, type = indent) => {
+    if (!_.has(obj, 'value')) {
+      return `${createSpace(depth)}${type}${obj.key}: ${stylish(obj.children, depth + 2)}`;
+    } if (_.has(obj, 'prevValue')) {
+      return `${createSpace(depth)}- ${obj.key}: ${_.isObject(obj.prevValue)
+        ? makeStylishString(obj.prevValue, depth + 2)
+        : obj.prevValue}\n${createSpace(depth)}+ ${obj.key}: ${_.isObject(obj.value)
+        ? makeStylishString(obj.value, depth + 2)
+        : obj.value}`;
+    } return `${createSpace(depth)}${type}${obj.key}: ${_.isObject(obj.value) ? makeStylishString(obj.value, depth + 2) : obj.value}`;
+  };
+  const arrey = arr.flatMap((cur) => {
+    switch (cur.type) {
+      case 'attachment':
+        return stringify(cur);
+      case 'unchanged':
+        return stringify(cur);
+      case 'deleted':
+        return stringify(cur, deleted);
+      case 'added':
+        return stringify(cur, added);
+      case 'updated':
+        return stringify(cur);
+      default:
+        throw Error('Wrong type of node');
+    }
+  }).join('\n');
+  return `{\n${arrey}\n${createSpace(depth - 1)}}`;
+};
 
-const formateStylish = (arr) => `{${stylish(arr)}\n}`;
-
-export default formateStylish;
+export default stylish;

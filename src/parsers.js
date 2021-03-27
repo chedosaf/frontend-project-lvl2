@@ -5,6 +5,6 @@ const parsers = {
   json: (obj) => JSON.parse(obj),
 };
 
-const parser = (filepath, format) => parsers[format](filepath);
+const parser = (data, format) => parsers[format](data);
 
 export default parser;
