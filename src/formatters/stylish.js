@@ -22,7 +22,7 @@ const stringify = (depth, obj, type = indent, value) => {
 };
 
 const stylish = (arr, depth = 1) => {
-  const arrey = arr.map((cur) => {
+  const stylished = arr.map((cur) => {
     switch (cur.type) {
       case 'attachment':
         return stringify(depth, cur, indent, stylish(cur.children, depth + 2));
@@ -38,7 +38,7 @@ const stylish = (arr, depth = 1) => {
         throw Error('Unknown type of node');
     }
   }).join('\n');
-  return `{\n${arrey}\n${createSpace(depth - 1)}}`;
+  return `{\n${stylished}\n${createSpace(depth - 1)}}`;
 };
 
 export default stylish;
