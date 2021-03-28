@@ -4,22 +4,19 @@ const complex = '[complex value]';
 const createQuotes = (item) => ((typeof item === 'string') ? `'${item}'` : item);
 const getPath = (path, cur) => [...path, cur].join('.');
 
-const formatePlain = (arr, path = []) => arr.flatMap((current) => {
-  switch (current.type) {
-    case 'attachment':
-      return `${formatePlain(current.children, [...path, current.key])}`;
-    case 'updated':
-      return `Property '${getPath(path, current.key)}' was updated. From ${!_.isObject(current.prevValue)
-        ? createQuotes(current.prevValue) : complex} to ${!_.isObject(current.value) ? createQuotes(current.value) : complex}`;
-    case 'deleted':
-      return `Property '${getPath(path, current.key)}' was removed`;
-    case 'added':
-      return `Property '${getPath(path, current.key)}' was added with value: ${!_.isObject(current.value) ? createQuotes(current.value) : complex}`;
-    case 'unchanged':
-      return [];
-    default:
-      throw Error('Wrong type of node');
-  }
-}).join('\n');
+const stringify = (node, path, fn) => {
+  const strValue = (value) => (!_.isObject(value) ? createQuotes(value) : complex);
+  if (node.type === 'updated') {
+    return `Property '${getPath(path, node.key)}' was updated. From ${strValue(node.prevValue)} to ${strValue(node.value)}`;
+  } if (node.type === 'deleted') {
+    return `Property '${getPath(path, node.key)}' was removed`;
+  } if (node.type === 'added') {
+    return `Property '${getPath(path, node.key)}' was added with value: ${!_.isObject(node.value) ? createQuotes(node.value) : complex}`;
+  } if (node.type === 'attachment') {
+    return `${fn(node.children, [...path, node.key])}`;
+  } return [];
+};
+
+const formatePlain = (arr, path = []) => arr.flatMap((current) => stringify(current, path, formatePlain)).join('\n');
 
 export default formatePlain;

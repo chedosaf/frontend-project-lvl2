@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-const compare = (obj1, obj2) => {
+const createTree = (obj1, obj2) => {
   const uniqSharedKeys = _.union(Object.keys(obj1), Object.keys(obj2));
   const sortedKeys = _.sortBy(uniqSharedKeys);
   const makeNode = (key) => {
@@ -13,7 +13,7 @@ const compare = (obj1, obj2) => {
       case (prevValue === value):
         return { key, type: 'unchanged', value };
       case ((_.isObject(prevValue)) && (_.isObject(value))):
-        return { key, type: 'attachment', children: compare(prevValue, value) };
+        return { key, type: 'attachment', children: createTree(prevValue, value) };
       case ((!_.isObject(prevValue)) || (!_.isObject(value))):
         return {
           key,
@@ -22,10 +22,10 @@ const compare = (obj1, obj2) => {
           value,
         };
       default:
-        throw Error('!');
+        throw Error('Wrong type of node');
     }
   };
   return sortedKeys.map(makeNode);
 };
 
-export default compare;
+export default createTree;
