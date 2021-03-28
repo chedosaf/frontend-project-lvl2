@@ -4,7 +4,7 @@ const indent = '  ';
 const deleted = '- ';
 const added = '+ ';
 
-const createSpace = (depth) => indent.repeat(depth);
+const createSpace = (depth, indentCount = 1) => indent.repeat(indentCount).repeat(depth);
 
 const makeStylishString = (obj, depth) => {
   const keys = _.sortBy(Object.keys(obj));
