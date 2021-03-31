@@ -1,39 +1,40 @@
 import _ from 'lodash';
 
-const indent = '  ';
-const deleted = '- ';
-const added = '+ ';
+const attachment = ' ';
+const unchanged = ' ';
+const deleted = '-';
+const added = '+';
 
-const createSpace = (depth, indentCount = 1) => indent.repeat(indentCount).repeat(depth);
+const createSpace = (depth, indentCount = 2) => ' '.repeat(indentCount).repeat(depth);
 
-const makeStylishString = (obj, depth) => {
-  const keys = _.sortBy(Object.keys(obj));
-  const createStr = keys.map((key) => {
-    const value = obj[key];
-    const str = `${createSpace(depth)}  ${key}: ${_.isObject(value) ? makeStylishString(value, depth + 2) : value}\n`;
+const makeStylishString = (node, depth) => {
+  const keys = _.sortBy(Object.keys(node));
+  const nodeText = keys.reduce((acc, key) => {
+    const value = node[key];
+    const str = `${acc}${createSpace(depth)}  ${key}: ${_.isObject(value) ? makeStylishString(value, depth + 2) : value}\n`;
     return str;
-  }, '').join('');
-  return `{\n${createStr}${createSpace(depth - 1)}}`;
+  }, '');
+  return `{\n${nodeText}${createSpace(depth - 1)}}`;
 };
 
-const stringify = (depth, obj, type = indent, value) => {
+const stringify = (depth, node, type, value = node.value) => {
   const strValue = _.isObject(value) ? makeStylishString(value, depth + 2) : value;
-  return `${createSpace(depth)}${type}${obj.key}: ${strValue}`;
+  return `${createSpace(depth)}${type} ${node.key}: ${strValue}`;
 };
 
 const stylish = (arr, depth = 1) => {
-  const stylished = arr.map((cur) => {
-    switch (cur.type) {
+  const stylished = arr.map((node) => {
+    switch (node.type) {
       case 'attachment':
-        return stringify(depth, cur, indent, stylish(cur.children, depth + 2));
+        return stringify(depth, node, attachment, stylish(node.children, depth + 2));
       case 'unchanged':
-        return stringify(depth, cur, indent, cur.value);
+        return stringify(depth, node, unchanged);
       case 'deleted':
-        return stringify(depth, cur, deleted, cur.value);
+        return stringify(depth, node, deleted);
       case 'added':
-        return stringify(depth, cur, added, cur.value);
+        return stringify(depth, node, added);
       case 'updated':
-        return `${stringify(depth, cur, deleted, cur.prevValue)}\n${stringify(depth, cur, added, cur.value)}`;
+        return `${stringify(depth, node, deleted, node.prevValue)}\n${stringify(depth, node, added)}`;
       default:
         throw Error('Unknown type of node');
     }
