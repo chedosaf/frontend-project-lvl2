@@ -2,9 +2,13 @@ import _ from 'lodash';
 
 const getPath = (path, cur) => [...path, cur].join('.');
 const toString = (value) => {
-  if (!_.isObject(value)) {
-    return (typeof value === 'string') ? `'${value}'` : value;
-  } return '[complex value]';
+  if (_.isObject(value)) {
+    return '[complex value]';
+  }
+  if (typeof value === 'string') {
+    return `'${value}'`;
+  }
+  return value;
 };
 
 const stringify = (node, path, toFormat) => {

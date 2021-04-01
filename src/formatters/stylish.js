@@ -2,18 +2,18 @@ import _ from 'lodash';
 
 const createSpace = (depth, indentCount = 2) => ' '.repeat(indentCount).repeat(depth);
 
-const toString = (value, depth, toFormate) => {
+const toString = (value, depth, toFormat) => {
   if (_.isObject(value)) {
-    return toFormate(value, depth + 2);
-  } return value;
+    return toFormat(value, depth + 2);
+  }
+  return value;
 };
 
 const makeStylishString = (node, depth) => {
   const keys = _.sortBy(Object.keys(node));
   const nodeText = keys.reduce((acc, key) => {
     const value = node[key];
-    const str = `${acc}${createSpace(depth)}  ${key}: ${toString(value, depth, makeStylishString)}\n`;
-    return str;
+    return `${acc}${createSpace(depth)}  ${key}: ${toString(value, depth, makeStylishString)}\n`;
   }, '');
   return `{\n${nodeText}${createSpace(depth - 1)}}`;
 };
