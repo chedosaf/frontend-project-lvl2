@@ -11,11 +11,11 @@ const toString = (value, depth, toFormat) => {
 
 const makeStylishString = (node, depth) => {
   const keys = _.sortBy(Object.keys(node));
-  const nodeText = keys.reduce((acc, key) => {
+  const formated = keys.reduce((acc, key) => {
     const value = node[key];
     return `${acc}${createSpace(depth)}  ${key}: ${toString(value, depth, makeStylishString)}\n`;
   }, '');
-  return `{\n${nodeText}${createSpace(depth - 1)}}`;
+  return `{\n${formated}${createSpace(depth - 1)}}`;
 };
 
 const stringify = (depth, node, type, value = node.value) => `${createSpace(depth)}${type} ${node.key}: ${toString(value, depth, makeStylishString)}`;
