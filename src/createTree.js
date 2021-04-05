@@ -14,7 +14,7 @@ const createTree = (obj1, obj2) => {
         return { key, type: 'unchanged', value };
       case ((_.isObject(prevValue)) && (_.isObject(value))):
         return { key, type: 'attachment', children: createTree(prevValue, value) };
-      case ((!_.isObject(prevValue)) || (!_.isObject(value))):
+      case (prevValue !== value):
         return {
           key,
           type: 'updated',

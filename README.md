@@ -5,7 +5,7 @@
 
 <a href="https://codeclimate.com/github/chedosaf/frontend-project-lvl2/test_coverage"><img src="https://api.codeclimate.com/v1/badges/78878c20dd18706d14f8/test_coverage" /></a>
 
-<a href="https://github.com/chedosaf/frontend-project-lvl2/workflows/lint/badge.svg"><img src="https://github.com/chedosaf/frontend-project-lvl2/workflows/lint/badge.svg"/></a><br>
+<a href="https://github.com/chedosaf/frontend-project-lvl2/actions/workflows/lint-check.yml"><img src="https://github.com/chedosaf/frontend-project-lvl2/workflows/lint/badge.svg"/></a><br>
 
 # Приложение "Вычислитель отличий"
 
@@ -14,7 +14,7 @@
 ## Установка:
 ```
   $ make install
-  $ npm link
+  $ make link
 ```
 
 Поддерживаемые форматы файлов:
