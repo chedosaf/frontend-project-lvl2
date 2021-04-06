@@ -34,7 +34,7 @@ const stylish = (arr, depth = 1) => {
       case 'updated':
         return `${stringify(depth, node, '-', node.prevValue)}\n${stringify(depth, node, '+')}`;
       default:
-        throw Error(`${node.type} incorrect type of node for Stylish`);
+        throw Error(`"!!${node.type}!!" incorrect type of node for Stylish`);
     }
   }).join('\n');
   return `{\n${stylished}\n${createSpace(depth).substring(2)}}`;

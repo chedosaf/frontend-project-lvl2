@@ -24,7 +24,7 @@ const stringify = (node, path, toFormat) => {
     case 'unchanged':
       return null;
     default:
-      throw Error(`${node.type} incorrect type of node for Plain`);
+      throw Error(`"!!${node.type}!!" incorrect type of node for Plain`);
   }
 };
 
