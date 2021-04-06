@@ -15,3 +15,8 @@ test.each([
   const expected = readFile(getFixturePath(format));
   expect(received).toBe(expected);
 });
+test('gendiff.js should output the difference between the two files without format value to Stylishformat', () => {
+  const received = genDiff(before, after);
+  const expected = readFile(getFixturePath('stylish'));
+  expect(received).toBe(expected);
+});

@@ -22,7 +22,7 @@ const createTree = (obj1, obj2) => {
           value,
         };
       default:
-        throw Error('Wrong type of node');
+        throw Error('Unexpected value for createTree!!!');
     }
   };
   return sortedKeys.map(makeNode);

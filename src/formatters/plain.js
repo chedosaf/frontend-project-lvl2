@@ -22,12 +22,12 @@ const stringify = (node, path, toFormat) => {
     case 'attachment':
       return `${toFormat(node.children, [...path, node.key])}`;
     case 'unchanged':
-      return [];
+      return null;
     default:
-      throw Error('Wrong node type');
+      throw Error(`${node.type} incorrect type of node for Plain`);
   }
 };
 
-const formatePlain = (arr, path = []) => arr.flatMap((current) => stringify(current, path, formatePlain)).join('\n');
+const formatePlain = (arr, path = []) => arr.flatMap((current) => stringify(current, path, formatePlain)).filter((str) => str !== null).join('\n');
 
 export default formatePlain;
