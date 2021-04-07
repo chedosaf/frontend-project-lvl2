@@ -1,4 +1,7 @@
-install: install-deps
+install:
+	npm install
+	chmod +x ./bin/gendiff.js
+	npm link
 
 install-deps:
 	npm ci
@@ -18,5 +21,3 @@ publish:
 gendiff:
 	node bin/gendiff.js
 
-link:
-	npm link
