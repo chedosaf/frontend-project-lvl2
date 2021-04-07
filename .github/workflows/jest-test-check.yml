@@ -15,7 +15,7 @@ jobs:
         with:
           node-version: '14'
           check-latest: true
-      - run: npm install
+      - run: make install
       
       - name: Run jest test
         run: make test
